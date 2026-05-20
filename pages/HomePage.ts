@@ -10,4 +10,11 @@ export class HomePage {
     async clickLogout() {
         await this.page.locator(this.logoutLink).click();
     }
+
+    // productsLink = 'a[href="/products"]'; // Sản phẩm
+
+    // // Method
+    // async clickProducts() {
+    //     await this.page.locator(this.productsLink).click();
+    // }
 }
