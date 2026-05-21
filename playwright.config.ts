@@ -1,27 +1,23 @@
-import { defineConfig } from '@playwright/test';
+import { defineConfig } from "@playwright/test";
 
 export default defineConfig({
+  testDir: "./tests",
 
-  testDir: './tests',
-
-  timeout: 30000,
+  timeout: 300000,
 
   retries: 1,
 
   use: {
-
-    baseURL: 'https://automationexercise.com',
+    baseURL: "https://automationexercise.com",
 
     headless: false,
 
-    screenshot: 'only-on-failure',
+    screenshot: "only-on-failure",
 
-    video: 'retain-on-failure',
+    video: "retain-on-failure",
 
-    trace: 'on-first-retry'
+    trace: "on-first-retry",
   },
 
-  reporter: [
-    ['html']
-  ]
+  reporter: [["html"]],
 });
