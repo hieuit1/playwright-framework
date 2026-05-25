@@ -1,0 +1,187 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: payment.spec.ts >> Payment Feature Tests >> Payment with short card number should fail
+- Location: tests\payment.spec.ts:12:7
+
+# Error details
+
+```
+Error: expect(page).not.toHaveURL(expected) failed
+
+Expected pattern: not /.*payment_done.*/
+Received string: "https://automationexercise.com/payment_done/500"
+Timeout: 5000ms
+
+Call log:
+  - Expect "not toHaveURL" with timeout 5000ms
+    13 × unexpected value "https://automationexercise.com/payment_done/500"
+
+```
+
+```yaml
+- banner:
+  - link "Automation Exercise website":
+    - /url: /
+    - img "Automation Exercise website"
+  - list:
+    - listitem:
+      - link " Home":
+        - /url: /
+    - listitem:
+      - link " Products":
+        - /url: /products
+    - listitem:
+      - link " Cart":
+        - /url: /view_cart
+    - listitem:
+      - link " Logout":
+        - /url: /logout
+    - listitem:
+      - link " Delete Account":
+        - /url: /delete_account
+    - listitem:
+      - link " Test Cases":
+        - /url: /test_cases
+    - listitem:
+      - link " API Testing":
+        - /url: /api_list
+    - listitem:
+      - link " Video Tutorials":
+        - /url: https://www.youtube.com/c/AutomationExercise
+    - listitem:
+      - link " Contact us":
+        - /url: /contact_us
+    - listitem:  Logged in as Hiếu
+- heading "Order Placed!" [level=2]
+- paragraph: Congratulations! Your order has been confirmed!
+- link "Download Invoice":
+  - /url: /download_invoice/500
+- link "Continue":
+  - /url: /
+- contentinfo:
+  - heading "Subscription" [level=2]
+  - textbox "Your email address"
+  - button ""
+  - paragraph: Get the most recent updates from our site and be updated your self...
+  - paragraph: Copyright © 2021 All rights reserved
+- insertion:
+  - iframe
+- insertion:
+  - iframe
+```
+
+# Test source
+
+```ts
+  44  |   async clickPayAndConfirm() {
+  45  |     await this.page.locator(this.payButton).click();
+  46  |   }
+  47  | 
+  48  |   // Kiểm tra đặt hàng thành công
+  49  |   async verifyOrderSuccess() {
+  50  |     // Kiểm tra URL chứa /payment_done
+  51  |     await expect(this.page).toHaveURL(/.*payment_done.*/);
+  52  |     // Kiểm tra thông báo thành công hiển thị
+  53  |     const successMsg = this.page.locator(this.orderSuccessMessage);
+  54  |     await expect(successMsg).toBeVisible();
+  55  |   }
+  56  | 
+  57  |   // Click nút Download Invoice và trả về thông tin download
+  58  |   async clickDownloadInvoice(): Promise<import("@playwright/test").Download> {
+  59  |     const downloadPromise = this.page.waitForEvent("download");
+  60  |     await this.page.locator(this.downloadInvoiceButton).click();
+  61  |     const download = await downloadPromise;
+  62  |     return download;
+  63  |   }
+  64  | 
+  65  |   // Click nút Continue để quay về trang Home
+  66  |   async clickContinue() {
+  67  |     await this.page.locator(this.continueButton).click();
+  68  |   }
+  69  | 
+  70  |   // Điền một field trong payment form
+  71  |   async fillCardField(
+  72  |     field: "name" | "cardNumber" | "cvc" | "month" | "year",
+  73  |     value: string,
+  74  |   ) {
+  75  |     switch (field) {
+  76  |       case "name":
+  77  |         await this.page.locator(this.nameOnCardInput).fill(value);
+  78  |         break;
+  79  |       case "cardNumber":
+  80  |         await this.page.locator(this.cardNumberInput).fill(value);
+  81  |         break;
+  82  |       case "cvc":
+  83  |         await this.page.locator(this.cvcInput).fill(value);
+  84  |         break;
+  85  |       case "month":
+  86  |         await this.page.locator(this.expiryMonthInput).fill(value);
+  87  |         break;
+  88  |       case "year":
+  89  |         await this.page.locator(this.expiryYearInput).fill(value);
+  90  |         break;
+  91  |     }
+  92  |   }
+  93  | 
+  94  |   // Clear một field trong payment form
+  95  |   async clearCardField(
+  96  |     field: "name" | "cardNumber" | "cvc" | "month" | "year",
+  97  |   ) {
+  98  |     switch (field) {
+  99  |       case "name":
+  100 |         await this.page.locator(this.nameOnCardInput).clear();
+  101 |         break;
+  102 |       case "cardNumber":
+  103 |         await this.page.locator(this.cardNumberInput).clear();
+  104 |         break;
+  105 |       case "cvc":
+  106 |         await this.page.locator(this.cvcInput).clear();
+  107 |         break;
+  108 |       case "month":
+  109 |         await this.page.locator(this.expiryMonthInput).clear();
+  110 |         break;
+  111 |       case "year":
+  112 |         await this.page.locator(this.expiryYearInput).clear();
+  113 |         break;
+  114 |     }
+  115 |   }
+  116 | 
+  117 |   // Kiểm tra error message hiển thị
+  118 |   async verifyErrorMessageVisible() {
+  119 |     const errorMsg = this.page.locator(this.errorAlertMessage);
+  120 |     await expect(errorMsg).toBeVisible();
+  121 |   }
+  122 | 
+  123 |   // Kiểm tra error message có chứa text nhất định
+  124 |   async verifyErrorMessageContains(text: string) {
+  125 |     const errorMsg = this.page.locator(this.errorAlertMessage);
+  126 |     await expect(errorMsg).toContainText(text);
+  127 |   }
+  128 | 
+  129 |   // Kiểm tra pay button disabled
+  130 |   async verifyPayButtonDisabled() {
+  131 |     const disabledBtn = this.page.locator(this.payButtonDisabled);
+  132 |     await expect(disabledBtn).toHaveCount(1);
+  133 |   }
+  134 | 
+  135 |   // Kiểm tra pay button enabled
+  136 |   async verifyPayButtonEnabled() {
+  137 |     const enabledBtn = this.page.locator(this.payButton + ":not(:disabled)");
+  138 |     await expect(enabledBtn).toHaveCount(1);
+  139 |   }
+  140 | 
+  141 |   // Kiểm tra payment thất bại (vẫn ở trang payment, không chuyển sang payment_done)
+  142 |   async verifyPaymentFailed() {
+  143 |     // Kiểm tra URL không chứa /payment_done
+> 144 |     await expect(this.page).not.toHaveURL(/.*payment_done.*/);
+      |                                 ^ Error: expect(page).not.toHaveURL(expected) failed
+  145 |   }
+  146 | }
+  147 | 
+```
