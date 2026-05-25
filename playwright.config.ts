@@ -21,6 +21,19 @@ export default defineConfig({
 
   reporter: [
     ["html"],
-    ["allure-playwright", { detail: true, outputFolder: "allure-results" }]
+    [
+      "allure-playwright",
+      {
+        detail: true,
+        outputFolder: "allure-results",
+        links: {
+          issue: {
+            nameTemplate: "Jira #%s",
+            urlTemplate: "https://tranxuanhieu899.atlassian.net/browse/%s",
+          },
+        },
+      },
+    ],
+    ["./reporters/jira-reporter.ts"],
   ],
 });

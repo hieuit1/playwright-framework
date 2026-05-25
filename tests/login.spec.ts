@@ -6,14 +6,16 @@ test.describe('Login Feature Tests', () => {
     // Positive case: Đăng nhập thành công
     test('Login successfully', {
         tag: ['@login', '@priority:critical'],
-        annotation: [{ type: 'severity', description: 'blocker' }]
+        annotation: [
+            { type: 'severity', description: 'blocker' },
+            { type: 'issue', description: 'SCRUM-1' }
+        ]
     }, async ({ page }) => {
         const loginPage = new LoginPage(page);
         await loginPage.gotoLoginPage();
         
         await loginPage.login('automationtesterpro@gmail.com', '123456');
 
-        // Khi đăng nhập thành công, URL sẽ chuyển hướng về trang chủ (không còn ở trang /login)
         await expect(page).toHaveURL('https://automationexercise.com/');
     });
 
@@ -51,7 +53,6 @@ test.describe('Login Feature Tests', () => {
         const loginPage = new LoginPage(page);
         await loginPage.gotoLoginPage();
         
-        // Bỏ trống cả 2 trường
         await loginPage.login('', '');
 
         // Form HTML5 chặn submit, trang không chuyển hướng
@@ -66,7 +67,6 @@ test.describe('Login Feature Tests', () => {
         const loginPage = new LoginPage(page);
         await loginPage.gotoLoginPage();
         
-        // Chỉ nhập Password, bỏ trống Email
         await loginPage.login('', '123456');
 
         // Form HTML5 chặn submit, trang không chuyển hướng
@@ -81,7 +81,6 @@ test.describe('Login Feature Tests', () => {
         const loginPage = new LoginPage(page);
         await loginPage.gotoLoginPage();
         
-        // Nhập Email, bỏ trống Password
         await loginPage.login('test@gmail.com', '');
 
         // Form HTML5 chặn submit, trang không chuyển hướng
@@ -96,7 +95,6 @@ test.describe('Login Feature Tests', () => {
         const loginPage = new LoginPage(page);
         await loginPage.gotoLoginPage();
         
-        // Nhập Email không có ký tự '@'
         await loginPage.login('wrongemailformat.com', '123456');
 
         // Form HTML5 chặn submit, trang không chuyển hướng
