@@ -10,7 +10,7 @@ export default defineConfig({
   use: {
     baseURL: "https://automationexercise.com",
 
-    headless: false,
+    headless: process.env.CI ? true : false,
 
     screenshot: "only-on-failure",
 
