@@ -4,7 +4,10 @@ import { LoginPage } from '../pages/LoginPage';
 test.describe('Login Feature Tests', () => {
 
     // Positive case: Đăng nhập thành công
-    test('Login successfully', async ({ page }) => {
+    test('Login successfully', {
+        tag: ['@login', '@priority:critical'],
+        annotation: [{ type: 'severity', description: 'blocker' }]
+    }, async ({ page }) => {
         const loginPage = new LoginPage(page);
         await loginPage.gotoLoginPage();
         
@@ -15,7 +18,10 @@ test.describe('Login Feature Tests', () => {
     });
 
     // Negative case: Đăng nhập sai mật khẩu
-    test('Login fails with incorrect password', async ({ page }) => {
+    test('Login fails with incorrect password', {
+        tag: ['@login', '@priority:high'],
+        annotation: [{ type: 'severity', description: 'critical' }]
+    }, async ({ page }) => {
         const loginPage = new LoginPage(page);
         await loginPage.gotoLoginPage();
         
@@ -25,7 +31,10 @@ test.describe('Login Feature Tests', () => {
     });
 
     // Negative case: Đăng nhập với email không tồn tại
-    test('Login fails with non-existing email', async ({ page }) => {
+    test('Login fails with non-existing email', {
+        tag: ['@login', '@priority:medium'],
+        annotation: [{ type: 'severity', description: 'normal' }]
+    }, async ({ page }) => {
         const loginPage = new LoginPage(page);
         await loginPage.gotoLoginPage();
         
@@ -35,7 +44,10 @@ test.describe('Login Feature Tests', () => {
     });
 
     // Negative case: Đăng nhập nhưng bỏ trống cả Email và Password
-    test('Login fails with empty email and password', async ({ page }) => {
+    test('Login fails with empty email and password', {
+        tag: ['@login', '@priority:low'],
+        annotation: [{ type: 'severity', description: 'minor' }]
+    }, async ({ page }) => {
         const loginPage = new LoginPage(page);
         await loginPage.gotoLoginPage();
         
@@ -47,7 +59,10 @@ test.describe('Login Feature Tests', () => {
     });
 
     // Negative case: Đăng nhập bỏ trống trường Email
-    test('Login fails with empty email', async ({ page }) => {
+    test('Login fails with empty email', {
+        tag: ['@login', '@priority:low'],
+        annotation: [{ type: 'severity', description: 'minor' }]
+    }, async ({ page }) => {
         const loginPage = new LoginPage(page);
         await loginPage.gotoLoginPage();
         
@@ -59,7 +74,10 @@ test.describe('Login Feature Tests', () => {
     });
 
     // Negative case: Đăng nhập bỏ trống trường Password
-    test('Login fails with empty password', async ({ page }) => {
+    test('Login fails with empty password', {
+        tag: ['@login', '@priority:low'],
+        annotation: [{ type: 'severity', description: 'minor' }]
+    }, async ({ page }) => {
         const loginPage = new LoginPage(page);
         await loginPage.gotoLoginPage();
         
@@ -71,7 +89,10 @@ test.describe('Login Feature Tests', () => {
     });
 
     // Negative case: Đăng nhập với Email sai định dạng
-    test('Login fails with incorrect email format', async ({ page }) => {
+    test('Login fails with incorrect email format', {
+        tag: ['@login', '@priority:low'],
+        annotation: [{ type: 'severity', description: 'minor' }]
+    }, async ({ page }) => {
         const loginPage = new LoginPage(page);
         await loginPage.gotoLoginPage();
         

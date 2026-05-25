@@ -6,7 +6,10 @@ import { registerData } from '../test-data/registerData';
 test.describe('Register Feature Tests', () => {
 
     // Positive case: Đăng ký thành công
-    test('Register successfully', async ({ page }) => {
+    test('Register successfully', {
+        tag: ['@register', '@priority:critical'],
+        annotation: [{ type: 'severity', description: 'blocker' }]
+    }, async ({ page }) => {
         const registerPage = new RegisterPage(page);
         const accountInfoPage = new AccountInfoPage(page);
 
@@ -23,7 +26,10 @@ test.describe('Register Feature Tests', () => {
     });
 
     // Negative case: Đăng ký với email đã tồn tại
-    test('Register fails when email already exists', async ({ page }) => {
+    test('Register fails when email already exists', {
+        tag: ['@register', '@priority:high'],
+        annotation: [{ type: 'severity', description: 'critical' }]
+    }, async ({ page }) => {
         const registerPage = new RegisterPage(page);
         
         await registerPage.gotoRegisterPage();
@@ -39,7 +45,10 @@ test.describe('Register Feature Tests', () => {
     });
 
     // Negative case: Đăng ký nhưng bỏ trống trường Tên (Name)
-    test('Register fails with empty name', async ({ page }) => {
+    test('Register fails with empty name', {
+        tag: ['@register', '@priority:low'],
+        annotation: [{ type: 'severity', description: 'minor' }]
+    }, async ({ page }) => {
         const registerPage = new RegisterPage(page);
         await registerPage.gotoRegisterPage();
         
@@ -52,7 +61,10 @@ test.describe('Register Feature Tests', () => {
     });
 
     // Negative case: Đăng ký nhưng bỏ trống trường Email
-    test('Register fails with empty email', async ({ page }) => {
+    test('Register fails with empty email', {
+        tag: ['@register', '@priority:low'],
+        annotation: [{ type: 'severity', description: 'minor' }]
+    }, async ({ page }) => {
         const registerPage = new RegisterPage(page);
         await registerPage.gotoRegisterPage();
         
@@ -64,7 +76,10 @@ test.describe('Register Feature Tests', () => {
     });
 
     // Negative case: Đăng ký nhưng bỏ trống cả Tên và Email
-    test('Register fails with empty name and email', async ({ page }) => {
+    test('Register fails with empty name and email', {
+        tag: ['@register', '@priority:low'],
+        annotation: [{ type: 'severity', description: 'minor' }]
+    }, async ({ page }) => {
         const registerPage = new RegisterPage(page);
         await registerPage.gotoRegisterPage();
         
@@ -76,7 +91,10 @@ test.describe('Register Feature Tests', () => {
     });
 
     // Negative case: Đăng ký với Tên chỉ chứa số
-    test('Register fails with number as name', async ({ page }) => {
+    test('Register fails with number as name', {
+        tag: ['@register', '@priority:low'],
+        annotation: [{ type: 'severity', description: 'minor' }]
+    }, async ({ page }) => {
         const registerPage = new RegisterPage(page);
         await registerPage.gotoRegisterPage();
         
@@ -89,7 +107,10 @@ test.describe('Register Feature Tests', () => {
     });
 
     // Negative case: Đăng ký với Email sai định dạng
-    test('Register fails with incorrect email format', async ({ page }) => {
+    test('Register fails with incorrect email format', {
+        tag: ['@register', '@priority:low'],
+        annotation: [{ type: 'severity', description: 'minor' }]
+    }, async ({ page }) => {
         const registerPage = new RegisterPage(page);
         await registerPage.gotoRegisterPage();
         

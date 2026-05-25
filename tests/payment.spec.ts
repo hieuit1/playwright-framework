@@ -9,7 +9,10 @@ import { checkoutData } from "../test-data/checkoutData";
 test.describe("Payment Feature Tests", () => {
   // ==================== NEGATIVE TEST CASES ====================
 
-  test("Payment with short card number should fail", async ({ page }) => {
+  test("Payment with short card number should fail", {
+    tag: ['@payment', '@priority:high'],
+    annotation: [{ type: 'severity', description: 'critical' }]
+  }, async ({ page }) => {
     const homePage = new HomePage(page);
     const cartPage = new CartPage(page);
     const checkoutPage = new CheckoutPage(page);
@@ -37,7 +40,10 @@ test.describe("Payment Feature Tests", () => {
     await paymentPage.verifyPaymentFailed();
   });
 
-  test("Payment with invalid CVC should fail", async ({ page }) => {
+  test("Payment with invalid CVC should fail", {
+    tag: ['@payment', '@priority:high'],
+    annotation: [{ type: 'severity', description: 'critical' }]
+  }, async ({ page }) => {
     const homePage = new HomePage(page);
     const cartPage = new CartPage(page);
     const checkoutPage = new CheckoutPage(page);
@@ -65,7 +71,10 @@ test.describe("Payment Feature Tests", () => {
     await paymentPage.verifyPaymentFailed();
   });
 
-  test("Payment with expired card should fail", async ({ page }) => {
+  test("Payment with expired card should fail", {
+    tag: ['@payment', '@priority:high'],
+    annotation: [{ type: 'severity', description: 'critical' }]
+  }, async ({ page }) => {
     const homePage = new HomePage(page);
     const cartPage = new CartPage(page);
     const checkoutPage = new CheckoutPage(page);
@@ -93,7 +102,10 @@ test.describe("Payment Feature Tests", () => {
     await paymentPage.verifyPaymentFailed();
   });
 
-  test("Payment with invalid expiry month should fail", async ({ page }) => {
+  test("Payment with invalid expiry month should fail", {
+    tag: ['@payment', '@priority:medium'],
+    annotation: [{ type: 'severity', description: 'normal' }]
+  }, async ({ page }) => {
     const homePage = new HomePage(page);
     const cartPage = new CartPage(page);
     const checkoutPage = new CheckoutPage(page);
@@ -121,7 +133,10 @@ test.describe("Payment Feature Tests", () => {
     await paymentPage.verifyPaymentFailed();
   });
 
-  test("Payment with empty card name should fail", async ({ page }) => {
+  test("Payment with empty card name should fail", {
+    tag: ['@payment', '@priority:medium'],
+    annotation: [{ type: 'severity', description: 'normal' }]
+  }, async ({ page }) => {
     const homePage = new HomePage(page);
     const cartPage = new CartPage(page);
     const checkoutPage = new CheckoutPage(page);
@@ -150,7 +165,10 @@ test.describe("Payment Feature Tests", () => {
     await paymentPage.verifyPaymentFailed();
   });
 
-  test("Payment with empty card number should fail", async ({ page }) => {
+  test("Payment with empty card number should fail", {
+    tag: ['@payment', '@priority:high'],
+    annotation: [{ type: 'severity', description: 'critical' }]
+  }, async ({ page }) => {
     const homePage = new HomePage(page);
     const cartPage = new CartPage(page);
     const checkoutPage = new CheckoutPage(page);
@@ -179,7 +197,10 @@ test.describe("Payment Feature Tests", () => {
     await paymentPage.verifyPaymentFailed();
   });
 
-  test("Payment with empty CVC should fail", async ({ page }) => {
+  test("Payment with empty CVC should fail", {
+    tag: ['@payment', '@priority:high'],
+    annotation: [{ type: 'severity', description: 'critical' }]
+  }, async ({ page }) => {
     const homePage = new HomePage(page);
     const cartPage = new CartPage(page);
     const checkoutPage = new CheckoutPage(page);
@@ -210,7 +231,10 @@ test.describe("Payment Feature Tests", () => {
 
   // ==================== POSITIVE TEST CASES ====================
 
-  test("Complete checkout flow and payment should succeed", async ({
+  test("Complete checkout flow and payment should succeed", {
+    tag: ['@payment', '@priority:critical'],
+    annotation: [{ type: 'severity', description: 'blocker' }]
+  }, async ({
     page,
   }) => {
     const homePage = new HomePage(page);
@@ -255,7 +279,10 @@ test.describe("Payment Feature Tests", () => {
     await paymentPage.verifyOrderSuccess();
   });
 
-  test("Payment with comment should succeed", async ({ page }) => {
+  test("Payment with comment should succeed", {
+    tag: ['@payment', '@priority:medium'],
+    annotation: [{ type: 'severity', description: 'normal' }]
+  }, async ({ page }) => {
     const homePage = new HomePage(page);
     const cartPage = new CartPage(page);
     const checkoutPage = new CheckoutPage(page);
@@ -290,7 +317,10 @@ test.describe("Payment Feature Tests", () => {
     await paymentPage.verifyOrderSuccess();
   });
 
-  test("Payment and download invoice should succeed", async ({ page }) => {
+  test("Payment and download invoice should succeed", {
+    tag: ['@payment', '@priority:medium'],
+    annotation: [{ type: 'severity', description: 'normal' }]
+  }, async ({ page }) => {
     const homePage = new HomePage(page);
     const cartPage = new CartPage(page);
     const checkoutPage = new CheckoutPage(page);

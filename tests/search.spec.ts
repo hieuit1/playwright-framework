@@ -9,7 +9,10 @@ test.describe('Search Product Feature Tests', () => {
     });
 
     // Positive case: Tìm kiếm sản phẩm tồn tại
-    test('Search for an existing product successfully', async ({ page }) => {
+    test('Search for an existing product successfully', {
+        tag: ['@search', '@priority:high'],
+        annotation: [{ type: 'severity', description: 'critical' }]
+    }, async ({ page }) => {
         const productsPage = new ProductsPage(page);
         const searchKeyword = 'Blue Top';
         
@@ -31,7 +34,10 @@ test.describe('Search Product Feature Tests', () => {
     });
 
     // Negative case: Tìm kiếm sản phẩm KHÔNG tồn tại
-    test('Search for a non-existing product', async ({ page }) => {
+    test('Search for a non-existing product', {
+        tag: ['@search', '@priority:medium'],
+        annotation: [{ type: 'severity', description: 'normal' }]
+    }, async ({ page }) => {
         const productsPage = new ProductsPage(page);
         const invalidKeyword = 'InvalidProductXYZ123';
         
@@ -48,7 +54,10 @@ test.describe('Search Product Feature Tests', () => {
     });
 
     // Negative case: Tìm kiếm bằng chuỗi rỗng
-    test('Search with empty keyword', async ({ page }) => {
+    test('Search with empty keyword', {
+        tag: ['@search', '@priority:low'],
+        annotation: [{ type: 'severity', description: 'minor' }]
+    }, async ({ page }) => {
         const productsPage = new ProductsPage(page);
         
         // Để trống input và click tìm kiếm

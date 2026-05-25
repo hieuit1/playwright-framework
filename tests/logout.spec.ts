@@ -4,7 +4,10 @@ import { HomePage } from '../pages/HomePage';
 
 test.describe('Logout Feature Tests', () => {
 
-    test('Logout successfully', async ({ page }) => {
+    test('Logout successfully', {
+        tag: ['@logout', '@priority:high'],
+        annotation: [{ type: 'severity', description: 'critical' }]
+    }, async ({ page }) => {
         const loginPage = new LoginPage(page);
         const homePage = new HomePage(page);
 

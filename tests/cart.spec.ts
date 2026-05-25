@@ -6,7 +6,10 @@ import { LoginPage } from '../pages/LoginPage';
 
 test.describe('Cart Feature Tests', () => {
 
-    test('Add product to cart without login should fail', async ({ page }) => {
+    test('Add product to cart without login should fail', {
+        tag: ['@cart', '@priority:high'],
+        annotation: [{ type: 'severity', description: 'critical' }]
+    }, async ({ page }) => {
         const homePage = new HomePage(page);
         const cartPage = new CartPage(page);
 
@@ -21,7 +24,10 @@ test.describe('Cart Feature Tests', () => {
         await cartPage.verifyCartIsEmpty();
     });
 
-    test('Add product from details page with custom quantity without login should fail ', async ({ page }) => {
+    test('Add product from details page with custom quantity without login should fail ', {
+        tag: ['@cart', '@priority:medium'],
+        annotation: [{ type: 'severity', description: 'normal' }]
+    }, async ({ page }) => {
         const homePage = new HomePage(page);
         const productDetailsPage = new ProductDetailsPage(page);
         const cartPage = new CartPage(page);
@@ -51,7 +57,10 @@ test.describe('Cart Feature Tests', () => {
         await cartPage.verifyCartIsEmpty();
     });
 
-    test('Add multiple products to cart after login should succeed', async ({ page }) => {
+    test('Add multiple products to cart after login should succeed', {
+        tag: ['@cart', '@priority:high'],
+        annotation: [{ type: 'severity', description: 'critical' }]
+    }, async ({ page }) => {
         const homePage = new HomePage(page);
         const cartPage = new CartPage(page);
         const loginPage = new LoginPage(page);
@@ -91,7 +100,10 @@ test.describe('Cart Feature Tests', () => {
     });
 
 
-    test('Add product from details page with custom quantity after login should succeed', async ({ page }) => {
+    test('Add product from details page with custom quantity after login should succeed', {
+        tag: ['@cart', '@priority:medium'],
+        annotation: [{ type: 'severity', description: 'normal' }]
+    }, async ({ page }) => {
         const homePage = new HomePage(page);
         const productDetailsPage = new ProductDetailsPage(page);
         const cartPage = new CartPage(page);

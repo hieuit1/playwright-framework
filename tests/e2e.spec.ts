@@ -8,7 +8,10 @@ import { ProductsPage } from "../pages/ProductsPage";
 import { checkoutData } from "../test-data/checkoutData";
 
 test.describe("E2E Complete User Journey Tests", () => {
-  test("complete journey from search to successful order", async ({ page }) => {
+  test("complete journey from search to successful order", {
+    tag: ['@e2e', '@priority:critical'],
+    annotation: [{ type: 'severity', description: 'blocker' }]
+  }, async ({ page }) => {
     const homePage = new HomePage(page);
     const productsPage = new ProductsPage(page);
     const cartPage = new CartPage(page);
@@ -71,7 +74,10 @@ test.describe("E2E Complete User Journey Tests", () => {
     await paymentPage.verifyOrderSuccess();
   });
 
-  test("multi-product purchase with quantities", async ({ page }) => {
+  test("multi-product purchase with quantities", {
+    tag: ['@e2e', '@priority:high'],
+    annotation: [{ type: 'severity', description: 'critical' }]
+  }, async ({ page }) => {
     const loginPage = new LoginPage(page);
     const homePage = new HomePage(page);
     const cartPage = new CartPage(page);
@@ -113,7 +119,10 @@ test.describe("E2E Complete User Journey Tests", () => {
     await paymentPage.verifyOrderSuccess();
   });
 
-  test("failed payment attempt then successful retry", async ({ page }) => {
+  test("failed payment attempt then successful retry", {
+    tag: ['@e2e', '@payment', '@priority:high'],
+    annotation: [{ type: 'severity', description: 'critical' }]
+  }, async ({ page }) => {
     const loginPage = new LoginPage(page);
     const homePage = new HomePage(page);
     const cartPage = new CartPage(page);
@@ -145,7 +154,10 @@ test.describe("E2E Complete User Journey Tests", () => {
     await paymentPage.verifyOrderSuccess();
   });
 
-  test("search product and login during checkout", async ({ page }) => {
+  test("search product and login during checkout", {
+    tag: ['@e2e', '@checkout', '@priority:medium'],
+    annotation: [{ type: 'severity', description: 'normal' }]
+  }, async ({ page }) => {
     const productsPage = new ProductsPage(page);
     const cartPage = new CartPage(page);
     const checkoutPage = new CheckoutPage(page);

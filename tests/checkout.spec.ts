@@ -7,7 +7,10 @@ import { LoginPage } from "../pages/LoginPage";
 test.describe("Checkout Feature Tests", () => {
   // ==================== NEGATIVE TEST CASES ====================
 
-  test("Checkout without login should show Register/Login modal", async ({
+  test("Checkout without login should show Register/Login modal", {
+    tag: ['@checkout', '@priority:high'],
+    annotation: [{ type: 'severity', description: 'critical' }]
+  }, async ({
     page,
   }) => {
     const homePage = new HomePage(page);
@@ -27,7 +30,10 @@ test.describe("Checkout Feature Tests", () => {
     await cartPage.verifyLoginRegisterModalVisible();
   });
 
-  test("Checkout with empty cart should not be possible", async ({ page }) => {
+  test("Checkout with empty cart should not be possible", {
+    tag: ['@checkout', '@priority:medium'],
+    annotation: [{ type: 'severity', description: 'normal' }]
+  }, async ({ page }) => {
     const cartPage = new CartPage(page);
     const loginPage = new LoginPage(page);
 
