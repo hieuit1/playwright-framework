@@ -5,16 +5,16 @@ export default defineConfig({
 
   timeout: 60000,
 
-  retries: 1,
+  retries: 0,
 
   use: {
     baseURL: "https://automationexercise.com",
 
     headless: process.env.CI ? true : false,
 
-    screenshot: "only-on-failure",
+    screenshot: "on",
 
-    video: "retain-on-failure",
+    video: "on",
 
     trace: "on-first-retry",
   },
@@ -34,6 +34,5 @@ export default defineConfig({
         },
       },
     ],
-    ["./reporters/jira-reporter.ts"],
   ],
 });
