@@ -64,7 +64,8 @@ jobs:
           merge-multiple: true
 
       - name: Generate Allure Report
-        run: npx allure generate allure-results -o allure-report --clean
+        # ĐÃ SỬA LỖI Ở ĐÂY: Thêm -y allure-commandline để máy chủ không bị treo khi hỏi cài đặt
+        run: npx -y allure-commandline generate allure-results -o allure-report --clean
 
       - name: Upload Allure Report
         uses: actions/upload-artifact@v4
@@ -73,8 +74,9 @@ jobs:
           path: allure-report
           retention-days: 30
 
-      # THÊM BƯỚC NÀY ĐỂ DEPLOY BÁO CÁO LÊN GITHUB PAGES
       - name: Deploy to GitHub Pages
+        # ĐÃ SỬA LỖI Ở ĐÂY: Chỉ deploy khi có code mới đẩy thẳng lên (push), tránh lỗi mất quyền khi tạo Pull Request
+        if: github.event_name == 'push'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
