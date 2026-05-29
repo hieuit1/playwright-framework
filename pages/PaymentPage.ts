@@ -11,7 +11,7 @@ interface CardData {
 export class PaymentPage {
   constructor(private page: Page) {}
 
-  // Locators - Sử dụng data-qa attributes cho độ ổn định cao
+  // Locators
   nameOnCardInput = '[data-qa="name-on-card"]';
   cardNumberInput = '[data-qa="card-number"]';
   cvcInput = '[data-qa="cvc"]';
@@ -19,18 +19,16 @@ export class PaymentPage {
   expiryYearInput = '[data-qa="expiry-year"]';
   payButton = '[data-qa="pay-button"]';
 
-  // Locators cho trang Order Confirmation (/payment_done)
+  // Locators Order Confirmation
   orderSuccessMessage = '[data-qa="order-placed"]';
-  orderSuccessText = "Congratulations! Your order has been confirmed!";
   downloadInvoiceButton = ".btn.btn-default.check_out";
   continueButton = '[data-qa="continue-button"]';
 
-  // Error locators for validation
+  // Error locators
   errorAlertMessage = '[data-qa="error-message"], .alert-danger, .error';
   payButtonDisabled = '[data-qa="pay-button"]:disabled';
 
   // Methods
-
   async fillPaymentDetails(cardData: CardData) {
     await this.page.locator(this.nameOnCardInput).fill(cardData.nameOnCard);
     await this.page.locator(this.cardNumberInput).fill(cardData.cardNumber);
@@ -60,34 +58,12 @@ export class PaymentPage {
     await this.page.locator(this.continueButton).click();
   }
 
-  async fillCardField(
-    field: "name" | "cardNumber" | "cvc" | "month" | "year",
-    value: string,
-  ) {
-    switch (field) {
-      case "name":
-        await this.page.locator(this.nameOnCardInput).fill(value);
-        break;
-      case "cardNumber":
-        await this.page.locator(this.cardNumberInput).fill(value);
-        break;
-      case "cvc":
-        await this.page.locator(this.cvcInput).fill(value);
-        break;
-      case "month":
-        await this.page.locator(this.expiryMonthInput).fill(value);
-        break;
-      case "year":
-        await this.page.locator(this.expiryYearInput).fill(value);
-        break;
-    }
-  }
-
+  // Cập nhật lại Union Type cho field để khớp với key nameOnCard
   async clearCardField(
-    field: "name" | "cardNumber" | "cvc" | "month" | "year",
+    field: "nameOnCard" | "cardNumber" | "cvc" | "month" | "year",
   ) {
     switch (field) {
-      case "name":
+      case "nameOnCard":
         await this.page.locator(this.nameOnCardInput).clear();
         break;
       case "cardNumber":
