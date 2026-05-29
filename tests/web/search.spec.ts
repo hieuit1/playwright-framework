@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
-import { ProductsPage } from "../pages/ProductsPage";
+import { ProductsPage } from "../../pages/ProductsPage";
 import { allure } from "allure-playwright";
-import { step } from "./helpers/stepWithScreenshot";
+import { step } from "../helpers/stepWithScreenshot";
 
 test.describe("Search Product Feature Tests", () => {
   test.beforeEach(async ({ page }) => {

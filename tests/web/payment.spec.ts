@@ -1,12 +1,12 @@
 import { test, expect } from "@playwright/test";
-import { HomePage } from "../pages/HomePage";
-import { CartPage } from "../pages/CartPage";
-import { CheckoutPage } from "../pages/CheckoutPage";
-import { PaymentPage } from "../pages/PaymentPage";
-import { LoginPage } from "../pages/LoginPage";
-import { checkoutData } from "../test-data/checkoutData";
+import { HomePage } from "../../pages/HomePage";
+import { CartPage } from "../../pages/CartPage";
+import { CheckoutPage } from "../../pages/CheckoutPage";
+import { PaymentPage } from "../../pages/PaymentPage";
+import { LoginPage } from "../../pages/LoginPage";
+import { checkoutData } from "../../test-data/checkoutData";
 import { allure } from "allure-playwright";
-import { step } from "./helpers/stepWithScreenshot";
+import { step } from "../helpers/stepWithScreenshot";
 
 test.describe("Payment Feature Tests", () => {
   // ==================== NEGATIVE TEST CASES ====================
@@ -602,14 +602,10 @@ test.describe("Payment Feature Tests", () => {
         await checkoutPage.dismissPopupIfPresent();
       });
 
-      await step(
-        page,
-        "6. Điền thông tin thanh toán và xác nhận",
-        async () => {
-          await paymentPage.fillPaymentDetails(checkoutData.validCard);
-          await paymentPage.clickPayAndConfirm();
-        },
-      );
+      await step(page, "6. Điền thông tin thanh toán và xác nhận", async () => {
+        await paymentPage.fillPaymentDetails(checkoutData.validCard);
+        await paymentPage.clickPayAndConfirm();
+      });
 
       await step(page, "7. Kiểm tra đặt hàng thành công", async () => {
         await paymentPage.verifyOrderSuccess();

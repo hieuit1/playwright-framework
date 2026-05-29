@@ -1,8 +1,8 @@
 import { test, expect } from "@playwright/test";
-import { LoginPage } from "../pages/LoginPage";
-import { HomePage } from "../pages/HomePage";
+import { LoginPage } from "../../pages/LoginPage";
+import { HomePage } from "../../pages/HomePage";
 import { allure } from "allure-playwright";
-import { step } from "./helpers/stepWithScreenshot";
+import { step } from "../helpers/stepWithScreenshot";
 
 test.describe("Logout Feature Tests", () => {
   test(

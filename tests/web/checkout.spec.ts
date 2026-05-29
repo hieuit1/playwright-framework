@@ -1,10 +1,10 @@
 import { test, expect } from "@playwright/test";
-import { HomePage } from "../pages/HomePage";
-import { CartPage } from "../pages/CartPage";
-import { CheckoutPage } from "../pages/CheckoutPage";
-import { LoginPage } from "../pages/LoginPage";
+import { HomePage } from "../../pages/HomePage";
+import { CartPage } from "../../pages/CartPage";
+import { CheckoutPage } from "../../pages/CheckoutPage";
+import { LoginPage } from "../../pages/LoginPage";
 import { allure } from "allure-playwright";
-import { step } from "./helpers/stepWithScreenshot";
+import { step } from "../helpers/stepWithScreenshot";
 
 test.describe("Checkout Feature Tests", () => {
   // ==================== NEGATIVE TEST CASES ====================

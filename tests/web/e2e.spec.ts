@@ -1,13 +1,13 @@
 import { test, expect } from "@playwright/test";
-import { HomePage } from "../pages/HomePage";
-import { CartPage } from "../pages/CartPage";
-import { CheckoutPage } from "../pages/CheckoutPage";
-import { PaymentPage } from "../pages/PaymentPage";
-import { LoginPage } from "../pages/LoginPage";
-import { ProductsPage } from "../pages/ProductsPage";
-import { checkoutData } from "../test-data/checkoutData";
+import { HomePage } from "../../pages/HomePage";
+import { CartPage } from "../../pages/CartPage";
+import { CheckoutPage } from "../../pages/CheckoutPage";
+import { PaymentPage } from "../../pages/PaymentPage";
+import { LoginPage } from "../../pages/LoginPage";
+import { ProductsPage } from "../../pages/ProductsPage";
+import { checkoutData } from "../../test-data/checkoutData";
 import { allure } from "allure-playwright";
-import { step } from "./helpers/stepWithScreenshot";
+import { step } from "../helpers/stepWithScreenshot";
 
 test.describe("E2E Complete User Journey Tests", () => {
   test(
