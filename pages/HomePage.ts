@@ -21,8 +21,8 @@ export class HomePage {
     await this.page.locator(this.logoutLink).click();
   }
 
-  async clickFirstViewProduct() {
-    await this.page.locator(this.viewProductLinks).first().click();
+  async clickViewFirstProduct() {
+    await this.page.locator(".choose a").first().click();
   }
 
   async addFirstProductToCart(): Promise<string | undefined> {

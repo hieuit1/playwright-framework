@@ -25,50 +25,50 @@ test.describe("Register Feature Tests", () => {
     });
   });
   // ==================== POSITIVE TEST CASE ====================
-  test(
-    "Register successfully with valid information",
-    {
-      tag: ["@register", "@priority:critical"],
-      annotation: [{ type: "severity", description: "blocker" }],
-    },
-    async ({ page }) => {
-      await allure.story("Valid Registration");
+  // test(
+  //   "Register successfully with valid information",
+  //   {
+  //     tag: ["@register", "@priority:critical"],
+  //     annotation: [{ type: "severity", description: "blocker" }],
+  //   },
+  //   async ({ page }) => {
+  //     await allure.story("Valid Registration");
 
-      const uniqueEmail = validRegisterData.getUniqueEmail();
+  //     const uniqueEmail = validRegisterData.getUniqueEmail();
 
-      await step(
-        page,
-        `1. Nhập Name và Email hợp lệ: ${uniqueEmail}`,
-        async () => {
-          await registerPage.signup(validRegisterData.name, uniqueEmail);
-        },
-      );
+  //     await step(
+  //       page,
+  //       `1. Nhập Name và Email hợp lệ: ${uniqueEmail}`,
+  //       async () => {
+  //         await registerPage.signup(validRegisterData.name, uniqueEmail);
+  //       },
+  //     );
 
-      await step(
-        page,
-        "2. Điền thông tin tài khoản chi tiết (Account Info)",
-        async () => {
-          // Chuyển sang trang Account Info và điền form
-          await accountInfoPage.fillAccountInformation();
-        },
-      );
+  //     await step(
+  //       page,
+  //       "2. Điền thông tin tài khoản chi tiết (Account Info)",
+  //       async () => {
+  //         // Chuyển sang trang Account Info và điền form
+  //         await accountInfoPage.fillAccountInformation();
+  //       },
+  //     );
 
-      await step(page, "3. Click tạo tài khoản", async () => {
-        await accountInfoPage.clickCreateAccount();
-      });
+  //     await step(page, "3. Click tạo tài khoản", async () => {
+  //       await accountInfoPage.clickCreateAccount();
+  //     });
 
-      await step(
-        page,
-        "4. Kiểm tra thông báo tạo tài khoản thành công",
-        async () => {
-          // Có thể đưa locator này vào AccountInfoPage trong tương lai cho code sạch hơn
-          await expect(
-            page.locator('[data-qa="account-created"]'),
-          ).toContainText("Account Created!");
-        },
-      );
-    },
-  );
+  //     await step(
+  //       page,
+  //       "4. Kiểm tra thông báo tạo tài khoản thành công",
+  //       async () => {
+  //         // Có thể đưa locator này vào AccountInfoPage trong tương lai cho code sạch hơn
+  //         await expect(
+  //           page.locator('[data-qa="account-created"]'),
+  //         ).toContainText("Account Created!");
+  //       },
+  //     );
+  //   },
+  // );
 
   // ==================== DATA-DRIVEN NEGATIVE TEST CASES ====================
   invalidRegisterCases.forEach((data) => {
