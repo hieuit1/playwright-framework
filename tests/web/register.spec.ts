@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "../helpers/baseTest";
 import { RegisterPage } from "../../pages/RegisterPage";
 import { AccountInfoPage } from "../../pages/AccountInfoPage";
 import { allure } from "allure-playwright";
