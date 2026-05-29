@@ -1,3 +1,8 @@
+export const cartTestConfig = {
+  bulkQuantity: "20",
+  singleQuantity: "1",
+};
+
 export const cartQuantityCases = [
   {
     scenario: "add exactly 1 item",
