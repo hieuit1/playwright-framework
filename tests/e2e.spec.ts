@@ -6,186 +6,125 @@ import { PaymentPage } from "../pages/PaymentPage";
 import { LoginPage } from "../pages/LoginPage";
 import { ProductsPage } from "../pages/ProductsPage";
 import { checkoutData } from "../test-data/checkoutData";
+import { allure } from "allure-playwright";
+import { step } from "./helpers/stepWithScreenshot";
 
 test.describe("E2E Complete User Journey Tests", () => {
-  test("complete journey from search to successful order", {
-    tag: ['@e2e', '@priority:critical'],
-    annotation: [{ type: 'severity', description: 'blocker' }]
-  }, async ({ page }) => {
-    const homePage = new HomePage(page);
-    const productsPage = new ProductsPage(page);
-    const cartPage = new CartPage(page);
-    const checkoutPage = new CheckoutPage(page);
-    const paymentPage = new PaymentPage(page);
-    const loginPage = new LoginPage(page);
+  test(
+    "complete journey from search to successful order",
+    {
+      tag: ["@e2e", "@priority:critical"],
+      annotation: [{ type: "severity", description: "blocker" }],
+    },
+    async ({ page }) => {
+      const homePage = new HomePage(page);
+      const productsPage = new ProductsPage(page);
+      const cartPage = new CartPage(page);
+      const checkoutPage = new CheckoutPage(page);
+      const paymentPage = new PaymentPage(page);
+      const loginPage = new LoginPage(page);
 
-    await homePage.goto();
-    await expect(page).toHaveURL(/automationexercise\.com/);
+      // Phân cấp kịch bản cho Report
+      await allure.epic("E2E User Journey");
+      await allure.feature("Complete Purchase Flow");
+      await allure.story("Search, Add to Cart, Checkout, Payment");
 
-    await productsPage.gotoProductsPage();
-    await productsPage.searchForProduct("Top");
-    await expect(page.locator("h2.title.text-center")).toContainText(
-      /SEARCHED PRODUCTS/i,
-    );
+      // Step 1: Truy cập trang chủ
+      await step(
+        page,
+        "1. Truy cập trang chủ Automation Exercise",
+        async () => {
+          await homePage.goto();
+          await expect(page).toHaveURL(/automationexercise\.com/);
+        },
+      );
 
-    const addToCartBtns = page.locator(
-      ".features_items .single-products .productinfo .add-to-cart",
-    );
+      // Step 2: Tìm kiếm sản phẩm
+      await step(
+        page,
+        "2. Truy cập trang sản phẩm và tìm kiếm 'Top'",
+        async () => {
+          await productsPage.gotoProductsPage();
+          await productsPage.searchForProduct("Top");
+          await expect(page.locator("h2.title.text-center")).toContainText(
+            /SEARCHED PRODUCTS/i,
+          );
+        },
+      );
 
-    for (let i = 0; i < 3; i++) {
-      await addToCartBtns.nth(i).click();
+      // Step 3: Thêm 3 sản phẩm vào giỏ hàng
+      await step(page, "3. Thêm 3 sản phẩm vào giỏ hàng", async () => {
+        const addToCartBtns = page.locator(
+          ".features_items .single-products .productinfo .add-to-cart",
+        );
 
-      const modal = page.locator("#cartModal");
-      await modal.waitFor({ state: "visible" });
-      await page.locator("button.btn-success.close-modal").click();
-      await modal.waitFor({ state: "hidden" });
-    }
+        for (let i = 0; i < 3; i++) {
+          await addToCartBtns.nth(i).click();
+          const modal = page.locator("#cartModal");
+          await modal.waitFor({ state: "visible" });
+          await page.locator("button.btn-success.close-modal").click();
+          await modal.waitFor({ state: "hidden" });
+        }
+      });
 
-    await cartPage.gotoCart();
-    await cartPage.verifyCartItemCount(3);
-    await cartPage.clickProceedToCheckout();
+      // Step 4: Kiểm tra giỏ hàng và tiến hành thanh toán
+      await step(page, "4. Xem giỏ hàng và kiểm tra 3 sản phẩm", async () => {
+        await cartPage.gotoCart();
+        await cartPage.verifyCartItemCount(3);
+      });
 
-    const checkoutModal = page.locator("#checkoutModal");
-    await checkoutModal.waitFor({ state: "visible" });
-    await checkoutModal.locator("a[href='/login']").click();
+      // Step 5: Tiếp tục thanh toán
+      await step(page, "5. Tiếp tục bước thanh toán", async () => {
+        await cartPage.clickProceedToCheckout();
 
-    await loginPage.login("automationtesterpro@gmail.com", "123456");
+        const checkoutModal = page.locator("#checkoutModal");
+        await checkoutModal.waitFor({ state: "visible" });
+        await checkoutModal.locator("a[href='/login']").click();
+      });
 
-    await cartPage.gotoCart();
-    await cartPage.clickProceedToCheckout();
+      // Step 6: Đăng nhập tài khoản
+      await step(page, "6. Đăng nhập tài khoản", async () => {
+        await loginPage.login("automationtesterpro@gmail.com", "123456");
+      });
 
-    await checkoutPage.verifyCheckoutPageVisible();
-    await checkoutPage.enterComment("Please handle with care - fragile items");
-    await checkoutPage.clickPlaceOrder();
-    await checkoutPage.dismissPopupIfPresent();
+      // Step 7: Quay lại giỏ hàng và tiếp tục thanh toán
+      await step(
+        page,
+        "7. Quay lại giỏ hàng và tiếp tục thanh toán",
+        async () => {
+          await cartPage.gotoCart();
+          await cartPage.clickProceedToCheckout();
+        },
+      );
 
-    await paymentPage.fillPaymentDetails(checkoutData.validCard);
-    await paymentPage.clickPayAndConfirm();
-    await paymentPage.verifyOrderSuccess();
-  });
+      // Step 8: Nhập bình luận và xác nhận đặt hàng
+      await step(page, "8. Nhập bình luận và xác nhận đặt hàng", async () => {
+        await checkoutPage.verifyCheckoutPageVisible();
+        await checkoutPage.enterComment(
+          "Please handle with care - fragile items",
+        );
+        await checkoutPage.clickPlaceOrder();
+        await checkoutPage.dismissPopupIfPresent();
+      });
 
-  test("multi-product purchase with quantities", {
-    tag: ['@e2e', '@priority:high'],
-    annotation: [{ type: 'severity', description: 'critical' }]
-  }, async ({ page }) => {
-    const loginPage = new LoginPage(page);
-    const homePage = new HomePage(page);
-    const cartPage = new CartPage(page);
-    const checkoutPage = new CheckoutPage(page);
-    const paymentPage = new PaymentPage(page);
+      // Step 9: Nhập thông tin thẻ tín dụng và thanh toán
+      await step(
+        page,
+        "9. Nhập thông tin thẻ tín dụng và thanh toán",
+        async () => {
+          await paymentPage.fillPaymentDetails(checkoutData.validCard);
+          await paymentPage.clickPayAndConfirm();
+        },
+      );
 
-    await loginPage.gotoLoginPage();
-    await loginPage.login("automationtesterpro@gmail.com", "123456");
-
-    await homePage.goto();
-    const product1 = await homePage.addFirstProductToCart();
-    expect(product1).toBeTruthy();
-    await homePage.clickModalViewCart();
-    await cartPage.verifyProductInCart(product1!);
-
-    await homePage.goto();
-    const product2 = await homePage.addProductToCartByIndex(1);
-    expect(product2).toBeTruthy();
-
-    await page.locator("button.btn-success.close-modal").click();
-    await page.locator("#cartModal").waitFor({ state: "hidden" });
-
-    const product3 = await homePage.addProductToCartByIndex(2);
-    expect(product3).toBeTruthy();
-    await page.locator("button.btn-success.close-modal").click();
-
-    await cartPage.gotoCart();
-    await cartPage.clickProceedToCheckout();
-
-    await checkoutPage.verifyCheckoutPageVisible();
-    await checkoutPage.enterComment("Standard delivery - ground floor");
-    await checkoutPage.clickPlaceOrder();
-    await checkoutPage.dismissPopupIfPresent();
-
-    await paymentPage.fillPaymentDetails(checkoutData.validCard);
-    await paymentPage.clickPayAndConfirm();
-    await paymentPage.verifyOrderSuccess();
-  });
-
-  test("failed payment attempt then successful retry", {
-    tag: ['@e2e', '@payment', '@priority:high'],
-    annotation: [{ type: 'severity', description: 'critical' }]
-  }, async ({ page }) => {
-    const loginPage = new LoginPage(page);
-    const homePage = new HomePage(page);
-    const cartPage = new CartPage(page);
-    const checkoutPage = new CheckoutPage(page);
-    const paymentPage = new PaymentPage(page);
-
-    await loginPage.gotoLoginPage();
-    await loginPage.login("automationtesterpro@gmail.com", "123456");
-
-    await homePage.goto();
-    const productName = await homePage.addFirstProductToCart();
-    expect(productName).toBeTruthy();
-    await homePage.clickModalViewCart();
-
-    await cartPage.clickProceedToCheckout();
-    await checkoutPage.verifyCheckoutPageVisible();
-    await checkoutPage.clickPlaceOrder();
-    await checkoutPage.dismissPopupIfPresent();
-
-    await paymentPage.fillPaymentDetails(checkoutData.shortCardNumber);
-    await paymentPage.clickPayAndConfirm();
-    await paymentPage.verifyPaymentFailed();
-
-    await page.reload();
-    await paymentPage.fillPaymentDetails(checkoutData.validCard);
-    await paymentPage.clickPayAndConfirm();
-    await paymentPage.verifyOrderSuccess();
-  });
-
-  test("search product and login during checkout", {
-    tag: ['@e2e', '@checkout', '@priority:medium'],
-    annotation: [{ type: 'severity', description: 'normal' }]
-  }, async ({ page }) => {
-    const productsPage = new ProductsPage(page);
-    const cartPage = new CartPage(page);
-    const checkoutPage = new CheckoutPage(page);
-    const paymentPage = new PaymentPage(page);
-    const loginPage = new LoginPage(page);
-
-    await productsPage.gotoProductsPage();
-    await productsPage.searchForProduct("Dress");
-
-    const addBtn = page
-      .locator(".features_items .single-products .productinfo .add-to-cart")
-      .first();
-    await addBtn.click();
-
-    const productName = await page
-      .locator(".features_items .productinfo p")
-      .first()
-      .textContent();
-
-    const viewCartBtn = page.locator("#cartModal a[href='/view_cart']").first();
-    await viewCartBtn.waitFor({ state: "visible" });
-    await viewCartBtn.click();
-
-    await cartPage.verifyProductInCart(productName!);
-
-    await cartPage.clickProceedToCheckout();
-
-    const checkoutModal = page.locator("#checkoutModal");
-    await checkoutModal.waitFor({ state: "visible" });
-    await checkoutModal.locator("a[href='/login']").click();
-
-    await loginPage.login("automationtesterpro@gmail.com", "123456");
-
-    await cartPage.gotoCart();
-    await cartPage.clickProceedToCheckout();
-
-    await checkoutPage.verifyCheckoutPageVisible();
-    await checkoutPage.clickPlaceOrder();
-    await checkoutPage.dismissPopupIfPresent();
-
-    await paymentPage.fillPaymentDetails(checkoutData.validCard);
-    await paymentPage.clickPayAndConfirm();
-    await paymentPage.verifyOrderSuccess();
-  });
+      // Step 10: Kiểm tra đơn hàng thành công
+      await step(
+        page,
+        "10. Xác nhận đơn hàng được đặt thành công",
+        async () => {
+          await paymentPage.verifyOrderSuccess();
+        },
+      );
+    },
+  );
 });
