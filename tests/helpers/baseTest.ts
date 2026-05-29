@@ -1,29 +1,52 @@
 import { test as baseTest } from "@playwright/test";
 
-// Mở rộng (extend) test mặc định của Playwright
 export const test = baseTest.extend({
-  // Cấu hình lại object 'page'
   page: async ({ page }, use) => {
-    // --- ĐOẠN CHẶN QUẢNG CÁO NẰM Ở ĐÂY ---
+    // ==========================================
+    // LỚP KHIÊN 1: Chặn tải quảng cáo từ Network (Nâng cấp từ khóa)
+    // ==========================================
     await page.route("**/*", (route) => {
       const url = route.request().url();
-      // Nếu phát hiện link quảng cáo thì chặn đứng (abort)
-      if (
-        url.includes("googleads") ||
-        url.includes("googlesyndication") ||
-        url.includes("doubleclick") ||
-        url.includes("adservice")
-      ) {
+      const blockedKeywords = [
+        "googleads",
+        "googlesyndication",
+        "doubleclick",
+        "adservice",
+        "vignette", // Từ khóa chuyên trị cái popup che màn hình
+        "adsbygoogle",
+      ];
+
+      if (blockedKeywords.some((keyword) => url.includes(keyword))) {
         route.abort();
       } else {
-        route.continue(); // Các link khác tải bình thường
+        route.continue();
       }
     });
 
-    // Trả object 'page' (đã được trang bị khiên chặn quảng cáo) cho các test case dùng
+    // ==========================================
+    // LỚP KHIÊN 2: Tiêm CSS ẩn quảng cáo (Tuyệt chiêu cuối)
+    // ==========================================
+    // Lệnh này sẽ chạy ngầm ngay khi web vừa mở ra, ép tất cả các
+    // thẻ iframe quảng cáo của Google phải "tàng hình" (display: none)
+    await page.addInitScript(() => {
+      const style = document.createElement("style");
+      style.innerHTML = `
+                /* Ẩn các iframe bắt đầu bằng chữ aswift hoặc ad_ (chuẩn của Google Ads) */
+                iframe[name^="aswift"], 
+                iframe[id^="ad_"], 
+                .adsbygoogle, 
+                div[id^="google_vignette"] { 
+                    display: none !important; 
+                    width: 0 !important; 
+                    height: 0 !important; 
+                }
+            `;
+      document.documentElement.appendChild(style);
+    });
+
+    // Trả page về cho test case sử dụng
     await use(page);
   },
 });
 
-// Export luôn expect để file test kia chỉ cần import từ file này
 export { expect } from "@playwright/test";
