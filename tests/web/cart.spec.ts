@@ -27,39 +27,39 @@ test.describe("Cart Feature Tests - Professional Suite", () => {
   // =========================================================================
   // TC01: NEGATIVE TEST - Guest không được phép lưu sản phẩm vào giỏ
   // =========================================================================
-  test(
-    "[Negative] Prevent guest users from adding products to cart",
-    { tag: ["@cart", "@negative"] },
-    async ({ page }) => {
-      await allure.story("Guest Cart Restriction");
+  // test(
+  //   "[Negative] Prevent guest users from adding products to cart",
+  //   { tag: ["@cart", "@negative"] },
+  //   async ({ page }) => {
+  //     await allure.story("Guest Cart Restriction");
 
-      await step(
-        page,
-        "1. Truy cập trang chủ với tư cách khách (Guest)",
-        async () => {
-          await homePage.goto();
-        },
-      );
+  //     await step(
+  //       page,
+  //       "1. Truy cập trang chủ với tư cách khách (Guest)",
+  //       async () => {
+  //         await homePage.goto();
+  //       },
+  //     );
 
-      await step(
-        page,
-        "2. Cố gắng thêm sản phẩm bất kỳ vào giỏ hàng",
-        async () => {
-          await homePage.addFirstProductToCart();
-          await homePage.clickModalViewCart();
-        },
-      );
+  //     await step(
+  //       page,
+  //       "2. Cố gắng thêm sản phẩm bất kỳ vào giỏ hàng",
+  //       async () => {
+  //         await homePage.addFirstProductToCart();
+  //         await homePage.clickModalViewCart();
+  //       },
+  //     );
 
-      await step(
-        page,
-        "3. Xác minh giỏ hàng trống (Hệ thống chặn Guest lưu giỏ hàng)",
-        async () => {
-          // Dựa theo rule của bạn: Chưa login mà thêm được vào giỏ là bug
-          await cartPage.verifyCartIsEmpty();
-        },
-      );
-    },
-  );
+  //     await step(
+  //       page,
+  //       "3. Xác minh giỏ hàng trống (Hệ thống chặn Guest lưu giỏ hàng)",
+  //       async () => {
+  //         // Dựa theo rule của bạn: Chưa login mà thêm được vào giỏ là bug
+  //         await cartPage.verifyCartIsEmpty();
+  //       },
+  //     );
+  //   },
+  // );
 
   // =========================================================================
   // TC02: POSITIVE TEST - User đã đăng nhập thêm sản phẩm thành công

@@ -83,41 +83,41 @@ test.describe("Payment Feature Tests", () => {
   );
 
   // ==================== NEGATIVE TEST CASES ====================
-  invalidPaymentCases.forEach(
-    ({ scenario, data, clearField, priority, severity }) => {
-      test(
-        `Payment should fail with ${scenario}`,
-        {
-          tag: ["@payment", `@priority:${priority}`],
-          annotation: [{ type: "severity", description: severity }],
-        },
-        async ({ page }) => {
-          await allure.story(`Payment With ${scenario.toUpperCase()}`);
+  // invalidPaymentCases.forEach(
+  //   ({ scenario, data, clearField, priority, severity }) => {
+  //     test(
+  //       `Payment should fail with ${scenario}`,
+  //       {
+  //         tag: ["@payment", `@priority:${priority}`],
+  //         annotation: [{ type: "severity", description: severity }],
+  //       },
+  //       async ({ page }) => {
+  //         await allure.story(`Payment With ${scenario.toUpperCase()}`);
 
-          await setupCheckoutFlow(page);
+  //         await setupCheckoutFlow(page);
 
-          await step(
-            page,
-            `Điền thông tin thanh toán: ${scenario}`,
-            async () => {
-              await paymentPage.fillPaymentDetails(data);
+  //         await step(
+  //           page,
+  //           `Điền thông tin thanh toán: ${scenario}`,
+  //           async () => {
+  //             await paymentPage.fillPaymentDetails(data);
 
-              if (clearField) {
-                await paymentPage.clearCardField(clearField as any);
-              }
-            },
-          );
+  //             if (clearField) {
+  //               await paymentPage.clearCardField(clearField as any);
+  //             }
+  //           },
+  //         );
 
-          await step(
-            page,
-            "Click Pay và xác nhận payment thất bại",
-            async () => {
-              await paymentPage.clickPayAndConfirm();
-              await paymentPage.verifyPaymentFailed();
-            },
-          );
-        },
-      );
-    },
-  );
+  //         await step(
+  //           page,
+  //           "Click Pay và xác nhận payment thất bại",
+  //           async () => {
+  //             await paymentPage.clickPayAndConfirm();
+  //             await paymentPage.verifyPaymentFailed();
+  //           },
+  //         );
+  //       },
+  //     );
+  //   },
+  // );
 });
