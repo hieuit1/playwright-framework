@@ -1,0 +1,223 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: web/checkout.spec.ts >> Checkout Feature Tests >> Checkout with empty cart should not be possible
+- Location: tests/web/checkout.spec.ts:52:7
+
+# Error details
+
+```
+Error: Lỗi: Giỏ hàng không rỗng! Chưa đăng nhập nhưng vẫn thêm được sản phẩm vào giỏ.
+
+expect(locator).toHaveCount(expected) failed
+
+Locator:  locator('#cart_info_table tbody tr')
+Expected: 0
+Received: 1
+Timeout:  5000ms
+
+Call log:
+  - Lỗi: Giỏ hàng không rỗng! Chưa đăng nhập nhưng vẫn thêm được sản phẩm vào giỏ. with timeout 5000ms
+  - waiting for locator('#cart_info_table tbody tr')
+    14 × locator resolved to 1 element
+       - unexpected value "1"
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e5]:
+      - link "Website for automation practice" [ref=e8] [cursor=pointer]:
+        - /url: /
+        - img "Website for automation practice" [ref=e9]
+      - list [ref=e12]:
+        - listitem [ref=e13]:
+          - link " Home" [ref=e14] [cursor=pointer]:
+            - /url: /
+            - generic [ref=e15]: 
+            - text: Home
+        - listitem [ref=e16]:
+          - link " Products" [ref=e17] [cursor=pointer]:
+            - /url: /products
+            - generic [ref=e18]: 
+            - text: Products
+        - listitem [ref=e19]:
+          - link " Cart" [ref=e20] [cursor=pointer]:
+            - /url: /view_cart
+            - generic [ref=e21]: 
+            - text: Cart
+        - listitem [ref=e22]:
+          - link " Logout" [ref=e23] [cursor=pointer]:
+            - /url: /logout
+            - generic [ref=e24]: 
+            - text: Logout
+        - listitem [ref=e25]:
+          - link " Delete Account" [ref=e26] [cursor=pointer]:
+            - /url: /delete_account
+            - generic [ref=e27]: 
+            - text: Delete Account
+        - listitem [ref=e28]:
+          - link " Test Cases" [ref=e29] [cursor=pointer]:
+            - /url: /test_cases
+            - generic [ref=e30]: 
+            - text: Test Cases
+        - listitem [ref=e31]:
+          - link " API Testing" [ref=e32] [cursor=pointer]:
+            - /url: /api_list
+            - generic [ref=e33]: 
+            - text: API Testing
+        - listitem [ref=e34]:
+          - link " Video Tutorials" [ref=e35] [cursor=pointer]:
+            - /url: https://www.youtube.com/c/AutomationExercise
+            - generic [ref=e36]: 
+            - text: Video Tutorials
+        - listitem [ref=e37]:
+          - link " Contact us" [ref=e38] [cursor=pointer]:
+            - /url: /contact_us
+            - generic [ref=e39]: 
+            - text: Contact us
+        - listitem [ref=e40]:
+          - generic [ref=e41]:
+            - generic [ref=e42]: 
+            - text: Logged in as Hiếu
+  - generic [ref=e44]:
+    - list [ref=e46]:
+      - listitem [ref=e47]:
+        - link "Home" [ref=e48] [cursor=pointer]:
+          - /url: /
+      - listitem [ref=e49]: Shopping Cart
+    - generic [ref=e54] [cursor=pointer]: Proceed To Checkout
+    - table [ref=e56]:
+      - rowgroup [ref=e57]:
+        - row "Item Description Price Quantity Total" [ref=e58]:
+          - cell "Item" [ref=e59]
+          - cell "Description" [ref=e60]
+          - cell "Price" [ref=e61]
+          - cell "Quantity" [ref=e62]
+          - cell "Total" [ref=e63]
+          - cell [ref=e64]
+      - rowgroup [ref=e65]:
+        - row "Product Image Blue Top Women > Tops Rs. 500 3 Rs. 1500 " [ref=e66]:
+          - cell "Product Image" [ref=e67]:
+            - link "Product Image" [ref=e68] [cursor=pointer]:
+              - /url: ""
+              - img "Product Image" [ref=e69]
+          - cell "Blue Top Women > Tops" [ref=e70]:
+            - heading "Blue Top" [level=4] [ref=e71]:
+              - link "Blue Top" [ref=e72] [cursor=pointer]:
+                - /url: /product_details/1
+            - paragraph [ref=e73]: Women > Tops
+          - cell "Rs. 500" [ref=e74]:
+            - paragraph [ref=e75]: Rs. 500
+          - cell "3" [ref=e76]:
+            - button "3" [ref=e77] [cursor=pointer]
+          - cell "Rs. 1500" [ref=e78]:
+            - paragraph [ref=e79]: Rs. 1500
+          - cell "" [ref=e80]:
+            - generic [ref=e82] [cursor=pointer]: 
+  - contentinfo [ref=e83]:
+    - generic [ref=e88]:
+      - heading "Subscription" [level=2] [ref=e89]
+      - generic [ref=e90]:
+        - textbox "Your email address" [ref=e91]
+        - button "" [ref=e92] [cursor=pointer]:
+          - generic [ref=e93]: 
+        - paragraph [ref=e94]:
+          - text: Get the most recent updates from
+          - text: our site and be updated your self...
+    - paragraph [ref=e98]: Copyright © 2021 All rights reserved
+  - text: 
+  - generic:
+    - insertion:
+      - generic:
+        - iframe
+```
+
+# Test source
+
+```ts
+  1  | import { Page, expect } from "@playwright/test";
+  2  | 
+  3  | export class CartPage {
+  4  |   constructor(private page: Page) {}
+  5  | 
+  6  |   // Locators
+  7  |   cartTable = "#cart_info_table";
+  8  |   cartItems = "#cart_info_table tbody tr";
+  9  |   cartItemDescription = ".cart_description h4 a";
+  10 |   proceedToCheckoutButton = "a.check_out";
+  11 |   loginRegisterModal = "#checkoutModal";
+  12 | 
+  13 |   // Methods
+  14 |   async gotoCart() {
+  15 |     await this.page.goto("https://automationexercise.com/view_cart");
+  16 |   }
+  17 | 
+  18 |   async verifyProductInCart(productName: string) {
+  19 |     await this.page.waitForSelector(this.cartTable);
+  20 |     const productLocator = this.page.locator(this.cartItemDescription, {
+  21 |       hasText: productName,
+  22 |     });
+  23 |     await expect(productLocator).toBeVisible();
+  24 |   }
+  25 | 
+  26 |   async verifyProductQuantity(expectedQty: string) {
+  27 |     const quantityBtn = this.page.locator(".cart_quantity button").first();
+  28 |     await expect(quantityBtn).toHaveText(expectedQty);
+  29 |   }
+  30 | 
+  31 |   // Bấm nút xóa hình dấu X màu đỏ ở dòng đầu tiên
+  32 |   async clickRemoveFirstProduct() {
+  33 |     await this.page.locator(".cart_quantity_delete").first().click();
+  34 |   }
+  35 | 
+  36 |   async verifyCartIsEmpty() {
+  37 |     // Kiểm tra xem giỏ hàng có rỗng không (thông báo 'Cart is empty' hoặc không có item nào)
+  38 |     const emptyCartMsg = this.page.locator("#empty_cart");
+  39 |     const hasEmptyCartMessage = await emptyCartMsg.isVisible();
+  40 | 
+  41 |     if (!hasEmptyCartMessage) {
+  42 |       const rows = this.page.locator(this.cartItems);
+  43 |       await expect(
+  44 |         rows,
+  45 |         "Lỗi: Giỏ hàng không rỗng! Chưa đăng nhập nhưng vẫn thêm được sản phẩm vào giỏ.",
+> 46 |       ).toHaveCount(0);
+     |         ^ Error: Lỗi: Giỏ hàng không rỗng! Chưa đăng nhập nhưng vẫn thêm được sản phẩm vào giỏ.
+  47 |     } else {
+  48 |       await expect(emptyCartMsg).toBeVisible();
+  49 |     }
+  50 |   }
+  51 | 
+  52 |   async verifyCartItemCount(expectedCount: number) {
+  53 |     await this.page.waitForSelector(this.cartTable);
+  54 |     const rows = this.page.locator(this.cartItems);
+  55 |     await expect(
+  56 |       rows,
+  57 |       `Lỗi: Giỏ hàng phải có ${expectedCount} sản phẩm.`,
+  58 |     ).toHaveCount(expectedCount);
+  59 |   }
+  60 | 
+  61 |   async clickProceedToCheckout() {
+  62 |     await this.page.locator(this.proceedToCheckoutButton).click();
+  63 |   }
+  64 | 
+  65 |   async verifyLoginRegisterModalVisible() {
+  66 |     const modal = this.page.locator(this.loginRegisterModal);
+  67 |     await expect(modal).toBeVisible();
+  68 |   }
+  69 | 
+  70 |   async verifyProceedToCheckoutNotVisible() {
+  71 |     const btn = this.page.locator(this.proceedToCheckoutButton);
+  72 |     await expect(btn).not.toBeVisible();
+  73 |   }
+  74 | }
+  75 | 
+```
