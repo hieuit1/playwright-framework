@@ -15,7 +15,12 @@ test.describe("Search Product Feature Tests - Data Driven", () => {
     test(
       data.testName,
       {
-        tag: ["@search", `@priority:${data.priority}`],
+        tag: [
+          "@search",
+          `@priority:${data.priority}`,
+          "@regression",
+          data.hasResults ? "@positive" : "@negative",
+        ],
         annotation: [{ type: "severity", description: data.severity }],
       },
       async ({ page }) => {

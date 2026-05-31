@@ -75,7 +75,12 @@ test.describe("Register Feature Tests", () => {
     test(
       `Register should fail with ${data.scenario}`,
       {
-        tag: ["@register", `@priority:${data.priority}`],
+        tag: [
+          "@register",
+          `@priority:${data.priority}`,
+          "@regression",
+          "@negative",
+        ],
         annotation: [{ type: "severity", description: data.severity }],
       },
       async ({ page }) => {

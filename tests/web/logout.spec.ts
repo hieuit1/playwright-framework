@@ -8,7 +8,7 @@ test.describe("Logout Feature Tests", () => {
   test(
     "Logout successfully",
     {
-      tag: ["@logout", "@priority:high"],
+      tag: ["@logout", "@priority:high", "@smoke", "@regression", "@positive"],
       annotation: [{ type: "severity", description: "critical" }],
     },
     async ({ page }) => {

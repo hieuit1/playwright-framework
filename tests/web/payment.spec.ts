@@ -56,7 +56,13 @@ test.describe("Payment Feature Tests", () => {
   test(
     "Complete checkout flow and download invoice successfully",
     {
-      tag: ["@payment", "@priority:critical"],
+      tag: [
+        "@payment",
+        "@priority:critical",
+        "@smoke",
+        "@regression",
+        "@positive",
+      ],
       annotation: [{ type: "severity", description: "blocker" }],
     },
     async ({ page }) => {

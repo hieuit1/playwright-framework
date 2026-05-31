@@ -24,7 +24,13 @@ test.describe("Login Feature Tests", () => {
   test(
     "Login successfully ",
     {
-      tag: ["@login", "@priority:critical"],
+      tag: [
+        "@login",
+        "@priority:critical",
+        "@smoke",
+        "@regression",
+        "@positive",
+      ],
       annotation: [{ type: "severity", description: "blocker" }],
     },
     async ({ page }) => {
@@ -50,7 +56,12 @@ test.describe("Login Feature Tests", () => {
     test(
       `Login should fail with ${data.scenario}`,
       {
-        tag: ["@login", `@priority:${data.priority}`],
+        tag: [
+          "@login",
+          `@priority:${data.priority}`,
+          "@regression",
+          "@negative",
+        ],
         annotation: [{ type: "severity", description: data.severity }],
       },
       async ({ page }) => {

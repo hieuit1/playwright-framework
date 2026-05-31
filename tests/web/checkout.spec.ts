@@ -12,7 +12,13 @@ test.describe("Checkout Feature Tests", () => {
   test(
     "Checkout without login should show Register/Login modal",
     {
-      tag: ["@checkout", "@priority:high"],
+      tag: [
+        "@checkout",
+        "@priority:high",
+        "@smoke",
+        "@regression",
+        "@negative",
+      ],
       annotation: [{ type: "severity", description: "critical" }],
     },
     async ({ page }) => {
@@ -52,7 +58,7 @@ test.describe("Checkout Feature Tests", () => {
   test(
     "Checkout with empty cart should not be possible",
     {
-      tag: ["@checkout", "@priority:medium"],
+      tag: ["@checkout", "@priority:medium", "@regression", "@negative"],
       annotation: [{ type: "severity", description: "normal" }],
     },
     async ({ page }) => {

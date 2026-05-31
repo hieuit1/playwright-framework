@@ -13,7 +13,7 @@ test.describe("E2E Complete User Journey Tests", () => {
   test(
     "complete journey from search to successful order",
     {
-      tag: ["@e2e", "@priority:critical"],
+      tag: ["@e2e", "@priority:critical", "@regression"],
       annotation: [{ type: "severity", description: "blocker" }],
     },
     async ({ page }) => {

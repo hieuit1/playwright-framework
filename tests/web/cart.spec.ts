@@ -67,7 +67,7 @@ test.describe("Cart Feature Tests - Professional Suite", () => {
   // =========================================================================
   test(
     "[Positive] Authenticated user can add a product to cart",
-    { tag: ["@cart", "@positive", "@smoke"] },
+    { tag: ["@cart", "@positive", "@smoke", "@regression"] },
     async ({ page }) => {
       await allure.story("Authenticated Cart Usage");
 
@@ -115,7 +115,7 @@ test.describe("Cart Feature Tests - Professional Suite", () => {
   // =========================================================================
   test(
     "[Boundary] Add a large quantity (20) of a single product",
-    { tag: ["@cart", "@stress"] },
+    { tag: ["@cart", "@stress", "@regression", "@negative"] },
     async ({ page }) => {
       await allure.story("Bulk Add to Cart");
       const BULK_QTY = "20"; // Đưa vào biến hằng số thay vì hardcode rải rác
