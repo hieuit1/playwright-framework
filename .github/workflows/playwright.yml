@@ -4,6 +4,8 @@ on:
     branches: [main, master]
   pull_request:
     branches: [main, master]
+  schedule:
+    - cron: "0 17 * * *" # Chạy vào lúc 0h00 sáng giờ VN mỗi ngày (17h UTC)
 jobs:
   playwright-tests:
     timeout-minutes: 60
@@ -23,7 +25,14 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
       - name: Run Playwright tests
-        run: npx playwright test --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+        run: |
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            echo " Chạy Smoke Test cho Pull Request..."
+            npx playwright test --grep @smoke --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+          else
+            echo " Chạy Regression Test cho nhánh Main..."
+            npx playwright test --grep @regression --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+          fi
 
       - name: Upload Allure Results
         if: ${{ !cancelled() }}
