@@ -34,7 +34,7 @@ jobs:
           node-version: lts/*
       - name: Install dependencies
         run: npm ci
-      - name: Install Playwright Browsers
+      - name: Install Playwright Browsers and System Dependencies
         run: npx playwright install --with-deps
 
       # CẬP NHẬT LUỒNG IF/ELSE ĐỂ NHẬN LỆNH TỪ NÚT BẤM
