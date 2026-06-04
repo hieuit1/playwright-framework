@@ -6,6 +6,18 @@ on:
     branches: [main, master]
   schedule:
     - cron: "0 17 * * *" # Chạy vào lúc 0h00 sáng giờ VN mỗi ngày (17h UTC)
+    # THÊM MỚI: Cho phép chạy thủ công từ giao diện GitHub
+  workflow_dispatch:
+    inputs:
+      test_type:
+        description: "Chọn loại test muốn chạy"
+        required: true
+        default: "@smoke"
+        type: choice
+        options:
+          - "@smoke"
+          - "@regression"
+
 jobs:
   playwright-tests:
     timeout-minutes: 60
@@ -24,13 +36,18 @@ jobs:
         run: npm ci
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
+
+      # CẬP NHẬT LUỒNG IF/ELSE ĐỂ NHẬN LỆNH TỪ NÚT BẤM
       - name: Run Playwright tests
         run: |
           if [ "${{ github.event_name }}" == "pull_request" ]; then
             echo " Chạy Smoke Test cho Pull Request..."
             npx playwright test --grep @smoke --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+          elif [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo " Chạy thủ công với tag ${{ github.event.inputs.test_type }}..."
+            npx playwright test --grep ${{ github.event.inputs.test_type }} --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
           else
-            echo " Chạy Regression Test cho nhánh Main..."
+            echo " Chạy Regression Test cho nhánh Main (Push/Schedule)..."
             npx playwright test --grep @regression --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
           fi
 
