@@ -1,8 +1,4 @@
 import { test, expect } from "../helpers/baseTest";
-import { HomePage } from "../../pages/HomePage";
-import { CartPage } from "../../pages/CartPage";
-import { CheckoutPage } from "../../pages/CheckoutPage";
-import { LoginPage } from "../../pages/LoginPage";
 import { allure } from "allure-playwright";
 import { step } from "../helpers/stepWithScreenshot";
 
@@ -21,9 +17,7 @@ test.describe("Checkout Feature Tests", () => {
       ],
       annotation: [{ type: "severity", description: "critical" }],
     },
-    async ({ page }) => {
-      const homePage = new HomePage(page);
-      const cartPage = new CartPage(page);
+    async ({ page, homePage, cartPage }) => {
 
       await allure.epic("E-commerce");
       await allure.feature("Checkout");
@@ -61,9 +55,7 @@ test.describe("Checkout Feature Tests", () => {
       tag: ["@checkout", "@priority:medium", "@regression", "@negative"],
       annotation: [{ type: "severity", description: "normal" }],
     },
-    async ({ page }) => {
-      const cartPage = new CartPage(page);
-      const loginPage = new LoginPage(page);
+    async ({ page, cartPage, loginPage }) => {
 
       await allure.epic("E-commerce");
       await allure.feature("Checkout");

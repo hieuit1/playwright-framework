@@ -1,16 +1,10 @@
 import { test, expect } from "../helpers/baseTest";
-import { LoginPage } from "../../pages/LoginPage";
 import { allure } from "allure-playwright";
 import { step } from "../helpers/stepWithScreenshot";
 import { invalidLoginCases, validLoginData } from "../../test-data/loginData";
 
 test.describe("Login Feature Tests", () => {
-  // Positive case: Đăng nhập thành công
-  let loginPage: LoginPage;
-
-  test.beforeEach(async ({ page }) => {
-    loginPage = new LoginPage(page);
-
+  test.beforeEach(async ({ page, loginPage }) => {
     await allure.epic("Authentication");
     await allure.feature("Login");
 
@@ -33,7 +27,7 @@ test.describe("Login Feature Tests", () => {
       ],
       annotation: [{ type: "severity", description: "blocker" }],
     },
-    async ({ page }) => {
+    async ({ page, loginPage }) => {
       await allure.story("Valid Login");
 
       await step(page, "1 Nhập email và password hợp lệ", async () => {
@@ -64,7 +58,7 @@ test.describe("Login Feature Tests", () => {
         ],
         annotation: [{ type: "severity", description: data.severity }],
       },
-      async ({ page }) => {
+      async ({ page, loginPage }) => {
         await allure.story(`Invalid Login: ${data.scenario.toUpperCase()}`);
 
         await step(page, `đăng nhập với ${data.scenario}`, async () => {

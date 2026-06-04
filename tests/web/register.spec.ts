@@ -1,6 +1,4 @@
 import { test, expect } from "../helpers/baseTest";
-import { RegisterPage } from "../../pages/RegisterPage";
-import { AccountInfoPage } from "../../pages/AccountInfoPage";
 import { allure } from "allure-playwright";
 import { step } from "../helpers/stepWithScreenshot";
 import {
@@ -9,14 +7,7 @@ import {
 } from "../../test-data/registerData";
 
 test.describe("Register Feature Tests", () => {
-  let registerPage: RegisterPage;
-  let accountInfoPage: AccountInfoPage;
-
-  test.beforeEach(async ({ page }) => {
-    // Khởi tạo các Page Object
-    registerPage = new RegisterPage(page);
-    accountInfoPage = new AccountInfoPage(page);
-
+  test.beforeEach(async ({ page, registerPage }) => {
     await allure.epic("Authentication");
     await allure.feature("Register Flow");
 
@@ -31,11 +22,11 @@ test.describe("Register Feature Tests", () => {
   //     tag: ["@register", "@priority:critical"],
   //     annotation: [{ type: "severity", description: "blocker" }],
   //   },
-  //   async ({ page }) => {
+  //   async ({ page, registerPage, accountInfoPage }) => {
   //     await allure.story("Valid Registration");
-
+  //
   //     const uniqueEmail = validRegisterData.getUniqueEmail();
-
+  //
   //     await step(
   //       page,
   //       `1. Nhập Name và Email hợp lệ: ${uniqueEmail}`,
@@ -43,7 +34,7 @@ test.describe("Register Feature Tests", () => {
   //         await registerPage.signup(validRegisterData.name, uniqueEmail);
   //       },
   //     );
-
+  //
   //     await step(
   //       page,
   //       "2. Điền thông tin tài khoản chi tiết (Account Info)",
@@ -52,11 +43,11 @@ test.describe("Register Feature Tests", () => {
   //         await accountInfoPage.fillAccountInformation();
   //       },
   //     );
-
+  //
   //     await step(page, "3. Click tạo tài khoản", async () => {
   //       await accountInfoPage.clickCreateAccount();
   //     });
-
+  //
   //     await step(
   //       page,
   //       "4. Kiểm tra thông báo tạo tài khoản thành công",
@@ -83,7 +74,7 @@ test.describe("Register Feature Tests", () => {
         ],
         annotation: [{ type: "severity", description: data.severity }],
       },
-      async ({ page }) => {
+      async ({ page, registerPage }) => {
         await allure.story(`Invalid Register: ${data.scenario.toUpperCase()}`);
 
         await step(

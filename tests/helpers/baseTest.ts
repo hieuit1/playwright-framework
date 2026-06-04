@@ -1,6 +1,38 @@
 import { test as baseTest } from "@playwright/test";
+import { HomePage } from "../../pages/HomePage";
+import { LoginPage } from "../../pages/LoginPage";
+import { ProductsPage } from "../../pages/ProductsPage";
+import { CartPage } from "../../pages/CartPage";
+import { CheckoutPage } from "../../pages/CheckoutPage";
+import { PaymentPage } from "../../pages/PaymentPage";
+import { RegisterPage } from "../../pages/RegisterPage";
+import { ProductDetailsPage } from "../../pages/ProductDetailsPage";
+import { AccountInfoPage } from "../../pages/AccountInfoPage";
 
-export const test = baseTest.extend({
+type MyFixtures = {
+  homePage: HomePage;
+  loginPage: LoginPage;
+  productsPage: ProductsPage;
+  cartPage: CartPage;
+  checkoutPage: CheckoutPage;
+  paymentPage: PaymentPage;
+  registerPage: RegisterPage;
+  productDetailsPage: ProductDetailsPage;
+  accountInfoPage: AccountInfoPage;
+};
+
+export const test = baseTest.extend<MyFixtures>({
+  // Tự động khởi tạo (inject) các Page Object
+  homePage: async ({ page }, use) => { await use(new HomePage(page)); },
+  loginPage: async ({ page }, use) => { await use(new LoginPage(page)); },
+  productsPage: async ({ page }, use) => { await use(new ProductsPage(page)); },
+  cartPage: async ({ page }, use) => { await use(new CartPage(page)); },
+  checkoutPage: async ({ page }, use) => { await use(new CheckoutPage(page)); },
+  paymentPage: async ({ page }, use) => { await use(new PaymentPage(page)); },
+  registerPage: async ({ page }, use) => { await use(new RegisterPage(page)); },
+  productDetailsPage: async ({ page }, use) => { await use(new ProductDetailsPage(page)); },
+  accountInfoPage: async ({ page }, use) => { await use(new AccountInfoPage(page)); },
+
   page: async ({ page }, use) => {
     // ==========================================
     // LỚP KHIÊN 1: Chặn tải quảng cáo từ Network (Nâng cấp từ khóa)

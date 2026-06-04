@@ -1,12 +1,10 @@
 import { test, expect } from "../helpers/baseTest";
-import { ProductsPage } from "../../pages/ProductsPage";
 import { allure } from "allure-playwright";
 import { step } from "../helpers/stepWithScreenshot";
 import { searchTestCases } from "../../test-data/searchData";
 
 test.describe("Search Product Feature Tests - Data Driven", () => {
-  test.beforeEach(async ({ page }) => {
-    const productsPage = new ProductsPage(page);
+  test.beforeEach(async ({ page, productsPage }) => {
     await productsPage.gotoProductsPage();
   });
 
@@ -23,9 +21,7 @@ test.describe("Search Product Feature Tests - Data Driven", () => {
         ],
         annotation: [{ type: "severity", description: data.severity }],
       },
-      async ({ page }) => {
-        const productsPage = new ProductsPage(page);
-
+      async ({ page, productsPage }) => {
         await allure.epic("E-commerce");
         await allure.feature("Search");
         await allure.story(data.story);

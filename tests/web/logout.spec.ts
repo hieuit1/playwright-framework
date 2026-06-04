@@ -1,6 +1,4 @@
 import { test, expect } from "../helpers/baseTest";
-import { LoginPage } from "../../pages/LoginPage";
-import { HomePage } from "../../pages/HomePage";
 import { allure } from "allure-playwright";
 import { step } from "../helpers/stepWithScreenshot";
 
@@ -11,9 +9,7 @@ test.describe("Logout Feature Tests", () => {
       tag: ["@logout", "@priority:high", "@smoke", "@regression", "@positive"],
       annotation: [{ type: "severity", description: "critical" }],
     },
-    async ({ page }) => {
-      const loginPage = new LoginPage(page);
-      const homePage = new HomePage(page);
+    async ({ page, loginPage, homePage }) => {
 
       await allure.epic("Authentication");
       await allure.feature("Logout Flow");

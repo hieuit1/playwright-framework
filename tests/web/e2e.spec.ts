@@ -1,10 +1,4 @@
 import { test, expect } from "../helpers/baseTest";
-import { HomePage } from "../../pages/HomePage";
-import { CartPage } from "../../pages/CartPage";
-import { CheckoutPage } from "../../pages/CheckoutPage";
-import { PaymentPage } from "../../pages/PaymentPage";
-import { LoginPage } from "../../pages/LoginPage";
-import { ProductsPage } from "../../pages/ProductsPage";
 import { checkoutData } from "../../test-data/checkoutData";
 import { allure } from "allure-playwright";
 import { step } from "../helpers/stepWithScreenshot";
@@ -16,13 +10,7 @@ test.describe("E2E Complete User Journey Tests", () => {
       tag: ["@e2e", "@smoke", "@priority:critical", "@regression"],
       annotation: [{ type: "severity", description: "blocker" }],
     },
-    async ({ page }) => {
-      const homePage = new HomePage(page);
-      const productsPage = new ProductsPage(page);
-      const cartPage = new CartPage(page);
-      const checkoutPage = new CheckoutPage(page);
-      const paymentPage = new PaymentPage(page);
-      const loginPage = new LoginPage(page);
+    async ({ page, homePage, productsPage, cartPage, checkoutPage, paymentPage, loginPage }) => {
 
       // Phân cấp kịch bản cho Report
       await allure.epic("E2E User Journey");
