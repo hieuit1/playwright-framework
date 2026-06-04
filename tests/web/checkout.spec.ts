@@ -3,6 +3,51 @@ import { allure } from "allure-playwright";
 import { step } from "../helpers/stepWithScreenshot";
 
 test.describe("Checkout Feature Tests", () => {
+  // ==================== POSITIVE TEST CASES ====================
+  test(
+    "Logged in user can successfully proceed to checkout page",
+    {
+      tag: [
+        "@checkout",
+        "@priority:critical",
+        "@smoke",
+        "@regression",
+        "@positive",
+      ],
+      annotation: [{ type: "severity", description: "blocker" }],
+    },
+    async ({ page, loginPage, homePage, cartPage, checkoutPage }) => {
+      await allure.epic("E-commerce");
+      await allure.feature("Checkout");
+      await allure.story("Checkout With Logged In User");
+
+      await step(page, "1. Đăng nhập vào hệ thống", async () => {
+        await loginPage.gotoLoginPage();
+        await loginPage.login("automationtesterpro@gmail.com", "123456");
+      });
+
+      await step(page, "2. Thêm sản phẩm vào giỏ hàng", async () => {
+        await homePage.goto();
+        await homePage.addFirstProductToCart();
+        await homePage.clickModalViewCart();
+      });
+
+      await step(page, "3. Click Proceed To Checkout", async () => {
+        await cartPage.clickProceedToCheckout();
+      });
+
+      await step(page, "4. Xác nhận trang Checkout hiển thị thành công", async () => {
+        await checkoutPage.verifyCheckoutPageVisible();
+      });
+
+      await step(page, "5. [Teardown] Dọn dẹp giỏ hàng", async () => {
+        // Tốt nhất là quay lại giỏ hàng và xóa đi để tránh ảnh hưởng test khác
+        await cartPage.gotoCart();
+        await cartPage.clickRemoveFirstProduct();
+      });
+    },
+  );
+
   // ==================== NEGATIVE TEST CASES ====================
 
   test(
@@ -61,30 +106,13 @@ test.describe("Checkout Feature Tests", () => {
       await allure.feature("Checkout");
       await allure.story("Checkout With Empty Cart");
 
-      await step(
-        page,
-        "1. Đi tới trang Đăng nhập và đăng nhập thành công",
-        async () => {
-          await loginPage.gotoLoginPage();
-          await loginPage.login("automationtesterpro@gmail.com", "123456");
-        },
-      );
-
-      await step(page, "2. Chuyển tới trang giỏ hàng", async () => {
+     await step(page, "1. Truy cập trực tiếp vào trang giỏ hàng với tư cách Guest", async () => {
         await cartPage.gotoCart();
-      });
-
-      await step(page, "3. Xác nhận giỏ hàng trống", async () => {
+    });
+    await step(page, "2. Xác nhận nút Proceed To Checkout không hiển thị", async () => {
         await cartPage.verifyCartIsEmpty();
-      });
-
-      await step(
-        page,
-        "4. Xác nhận nút Proceed To Checkout không hiển thị",
-        async () => {
-          await cartPage.verifyProceedToCheckoutNotVisible();
-        },
-      );
+        await cartPage.verifyProceedToCheckoutNotVisible();
+    });
     },
   );
 });
