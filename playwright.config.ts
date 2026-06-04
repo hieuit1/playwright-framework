@@ -20,8 +20,20 @@ export default defineConfig({
     userAgent:
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
 
-    // Thời gian tối đa cho các hành động (click, fill, hover...)
-    actionTimeout: 10000,
+    // THÊM ĐOẠN NÀY: Bổ sung Headers để giả lập giống người dùng thật nhất có thể
+    extraHTTPHeaders: {
+      Accept:
+        "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
+      "Accept-Language": "en-US,en;q=0.9,vi;q=0.8",
+      "Upgrade-Insecure-Requests": "1",
+      "Sec-Fetch-Dest": "document",
+      "Sec-Fetch-Mode": "navigate",
+      "Sec-Fetch-Site": "none",
+      "Sec-Fetch-User": "?1",
+    },
+
+    actionTimeout: 15000, // Tăng thêm thời gian chờ hành động lên 15 giây (vì mạng CI thường chậm hơn)
+    navigationTimeout: 30000, // Thêm thời gian chờ load trang (30 giây)
 
     baseURL: "https://automationexercise.com",
 
