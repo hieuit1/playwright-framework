@@ -36,14 +36,25 @@ test.describe("Checkout Feature Tests", () => {
         await cartPage.clickProceedToCheckout();
       });
 
-      await step(page, "4. Xác nhận trang Checkout hiển thị thành công", async () => {
-        await checkoutPage.verifyCheckoutPageVisible();
-      });
+      await step(
+        page,
+        "4. Xác nhận trang Checkout hiển thị thành công",
+        async () => {
+          await checkoutPage.verifyCheckoutPageVisible();
+        },
+      );
 
       await step(page, "5. [Teardown] Dọn dẹp giỏ hàng", async () => {
         // Tốt nhất là quay lại giỏ hàng và xóa đi để tránh ảnh hưởng test khác
         await cartPage.gotoCart();
-        await cartPage.clickRemoveFirstProduct();
+
+        // Kiểm tra giỏ hàng không trống trước khi xóa
+        const emptyCartMsg = page.locator("#empty_cart");
+        const isEmpty = await emptyCartMsg.isVisible();
+
+        if (!isEmpty) {
+          await cartPage.clickRemoveFirstProduct();
+        }
       });
     },
   );
@@ -63,7 +74,6 @@ test.describe("Checkout Feature Tests", () => {
       annotation: [{ type: "severity", description: "critical" }],
     },
     async ({ page, homePage, cartPage }) => {
-
       await allure.epic("E-commerce");
       await allure.feature("Checkout");
       await allure.story("Checkout Without Login");
@@ -101,18 +111,25 @@ test.describe("Checkout Feature Tests", () => {
       annotation: [{ type: "severity", description: "normal" }],
     },
     async ({ page, cartPage, loginPage }) => {
-
       await allure.epic("E-commerce");
       await allure.feature("Checkout");
       await allure.story("Checkout With Empty Cart");
 
-     await step(page, "1. Truy cập trực tiếp vào trang giỏ hàng với tư cách Guest", async () => {
-        await cartPage.gotoCart();
-    });
-    await step(page, "2. Xác nhận nút Proceed To Checkout không hiển thị", async () => {
-        await cartPage.verifyCartIsEmpty();
-        await cartPage.verifyProceedToCheckoutNotVisible();
-    });
+      await step(
+        page,
+        "1. Truy cập trực tiếp vào trang giỏ hàng với tư cách Guest",
+        async () => {
+          await cartPage.gotoCart();
+        },
+      );
+      await step(
+        page,
+        "2. Xác nhận nút Proceed To Checkout không hiển thị",
+        async () => {
+          await cartPage.verifyCartIsEmpty();
+          await cartPage.verifyProceedToCheckoutNotVisible();
+        },
+      );
     },
   );
 });
