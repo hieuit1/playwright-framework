@@ -26,13 +26,20 @@ export class HomePage {
   }
 
   async addFirstProductToCart(): Promise<string | undefined> {
-    const productName = await this.page
-      .locator(this.productNames)
-      .first()
+    const productCard = this.page
+      .locator(".features_items .product-image-wrapper")
+      .first();
+
+    await productCard.scrollIntoViewIfNeeded();
+
+    const productName = await productCard
+      .locator(".productinfo p")
       .textContent();
 
-    // Automation Exercise có 2 nút add-to-cart (1 hiển thị, 1 khi hover).
-    await this.page.locator(this.addToCartButtons).first().click();
+    await productCard.hover();
+
+    const overlayAddBtn = productCard.locator(".overlay-content .add-to-cart");
+    await overlayAddBtn.click();
 
     return productName?.trim();
   }

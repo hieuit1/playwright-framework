@@ -5,8 +5,8 @@ export default defineConfig({
 
   timeout: 60000,
 
-  // Giới hạn chạy 1 worker trên CI/máy ảo để tránh lỗi Out of Memory
-  workers: process.env.CI ? 1 : undefined,
+  // Giới hạn chạy 50% worker trên CI/máy ảo để tránh lỗi Out of Memory
+  workers: process.env.CI ? "50%" : undefined,
 
   // Thời gian tối đa chờ một hàm expect() (ví dụ: expect(locator).toBeVisible())
   expect: {
