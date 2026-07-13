@@ -1,5 +1,3 @@
-// File: test-data/loginData.ts
-
 export const validLoginData = {
   email: process.env.TEST_USER_EMAIL || "automationtesterpro@gmail.com",
   password: process.env.TEST_USER_PASSWORD || "123456",
