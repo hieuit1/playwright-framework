@@ -3,6 +3,17 @@ import { Page, expect } from "@playwright/test";
 export class SeoPage {
   constructor(private page: Page) { }
 
+  // ==================== LOCATORS ====================
+  private metaDescriptionSelector = 'meta[name="description"]';
+  private canonicalSelector = 'link[rel="canonical"]';
+  private robotsSelector = 'meta[name="robots"]';
+  private ogTitleSelector = 'meta[property="og:title"]';
+  private ogDescSelector = 'meta[property="og:description"]';
+  private ogImageSelector = 'meta[property="og:image"]';
+  private imagesWithoutAltSelector = 'img:not([alt]), img[alt=""]';
+
+  // ==================== METHODS ====================
+
   // Quét toàn diện các thông tin SEO từ DOM không gây timeout
   async scanSEOMetadata() {
     const titleVal = await this.page.title();
@@ -17,18 +28,18 @@ export class SeoPage {
       return null;
     };
 
-    const metaVal = await getAttributeSafe('meta[name="description"]', "content");
+    const metaVal = await getAttributeSafe(this.metaDescriptionSelector, "content");
     const h1Texts = await this.page.locator("h1").allTextContents();
-    const canonical = await getAttributeSafe('link[rel="canonical"]', "href");
-    const robots = await getAttributeSafe('meta[name="robots"]', "content");
+    const canonical = await getAttributeSafe(this.canonicalSelector, "href");
+    const robots = await getAttributeSafe(this.robotsSelector, "content");
 
     // Thẻ Open Graph (Chia sẻ mạng xã hội)
-    const ogTitle = await getAttributeSafe('meta[property="og:title"]', "content");
-    const ogDesc = await getAttributeSafe('meta[property="og:description"]', "content");
-    const ogImage = await getAttributeSafe('meta[property="og:image"]', "content");
+    const ogTitle = await getAttributeSafe(this.ogTitleSelector, "content");
+    const ogDesc = await getAttributeSafe(this.ogDescSelector, "content");
+    const ogImage = await getAttributeSafe(this.ogImageSelector, "content");
 
     // Đếm số hình ảnh thiếu thẻ alt
-    const missingAltCount = await this.page.locator('img:not([alt]), img[alt=""]').count();
+    const missingAltCount = await this.page.locator(this.imagesWithoutAltSelector).count();
 
     return { titleVal, metaVal, h1Texts, canonical, robots, ogTitle, ogDesc, ogImage, missingAltCount };
   }
@@ -104,7 +115,7 @@ export class SeoPage {
     }, { pageName, data });
   }
 
-  // --- CÁC HÀM XÁC THỰC (ASSERTIONS) KHẮT KHE ---
+  // ==================== ASSERTIONS ====================
 
   async verifyStrictTitle(titleVal: string) {
     expect.soft(titleVal, "Lỗi CRITICAL: Thẻ <title> không tồn tại!").not.toBeNull();
