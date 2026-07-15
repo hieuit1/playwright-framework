@@ -4,7 +4,7 @@ import { step } from "../helpers/stepWithScreenshot";
 import { validLoginData } from "../../test-data/loginData";
 import { seoTestData } from "../../test-data/seoData";
 
-test.describe("Kiểm tra Tối ưu hóa SEO KHẮT KHE (Strict SEO Audit) - Data Driven", () => {
+test.describe("Kiểm tra Tối ưu hóa SEO KHẮT KHE (Strict SEO Audit) - Data Driven @regression @smoke @seo", () => {
   test.beforeEach(async () => {
     await allure.epic("SEO Optimization");
     await allure.feature("Technical SEO & Metadata Compliance");
