@@ -10,8 +10,8 @@ test.describe("Checkout Feature Tests", () => {
       tag: [
         "@checkout",
         "@priority:critical",
-        "@smoke",
         "@regression",
+        "@smoke",
         "@positive",
       ],
       annotation: [{ type: "severity", description: "blocker" }],

@@ -9,6 +9,7 @@ import { RegisterPage } from "../../pages/RegisterPage";
 import { ProductDetailsPage } from "../../pages/ProductDetailsPage";
 import { AccountInfoPage } from "../../pages/AccountInfoPage";
 import { SeoPage } from "../../pages/SeoPage";
+import { PerformancePage } from "../../pages/PerformancePage";
 
 type MyFixtures = {
   homePage: HomePage;
@@ -21,6 +22,7 @@ type MyFixtures = {
   productDetailsPage: ProductDetailsPage;
   accountInfoPage: AccountInfoPage;
   seoPage: SeoPage;
+  performancePage: PerformancePage;
 };
 
 export const test = baseTest.extend<MyFixtures>({
@@ -35,6 +37,7 @@ export const test = baseTest.extend<MyFixtures>({
   productDetailsPage: async ({ page }, use) => { await use(new ProductDetailsPage(page)); },
   accountInfoPage: async ({ page }, use) => { await use(new AccountInfoPage(page)); },
   seoPage: async ({ page }, use) => { await use(new SeoPage(page)); },
+  performancePage: async ({ page }, use) => { await use(new PerformancePage(page)); },
 
   page: async ({ page }, use) => {
     // ==========================================
