@@ -17,6 +17,8 @@ on:
         options:
           - "@smoke"
           - "@regression"
+          - "@seo"
+          - "@performance"
 
 jobs:
   playwright-tests:
