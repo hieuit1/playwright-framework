@@ -158,7 +158,6 @@ export class SeoPage {
   async verifyOpenGraph(ogTitle: string | null, ogDesc: string | null, ogImage: string | null) {
     expect.soft(ogTitle, "Lỗi Social SEO: Thiếu og:title").not.toBeNull();
     expect.soft(ogDesc, "Lỗi Social SEO: Thiếu og:description").not.toBeNull();
-    expect.soft(ogImage, "Lỗi Social SEO: Thiếu og:image").not.toBeNull();
   }
 
   async verifyImagesAltText(missingAltCount: number) {

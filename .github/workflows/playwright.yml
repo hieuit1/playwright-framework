@@ -4,9 +4,9 @@ on:
     branches: [main, master]
   pull_request:
     branches: [main, master]
-  schedule:
-    - cron: "0 17 * * *" # Chạy vào lúc 0h00 sáng giờ VN mỗi ngày (17h UTC)
-    # THÊM MỚI: Cho phép chạy thủ công từ giao diện GitHub
+  # schedule:
+  #   - cron: "0 17 * * *" # Chạy vào lúc 0h00 sáng giờ VN mỗi ngày (17h UTC)
+  # THÊM MỚI: Cho phép chạy thủ công từ giao diện GitHub
   workflow_dispatch:
     inputs:
       test_type:
